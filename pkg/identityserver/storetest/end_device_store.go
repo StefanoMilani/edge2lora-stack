@@ -52,6 +52,7 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 		"name", "description", "attributes", "version_ids",
 		"network_server_address", "application_server_address", "join_server_address",
 		"service_profile_id", "locations", "picture", "activated_at", "last_seen_at",
+		"claim_authentication_code",
 	)
 
 	location := &ttnpb.Location{
@@ -73,6 +74,11 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 			MimeType: "image/png",
 			Data:     []byte("foobarbaz"),
 		},
+	}
+	start := time.Now().Truncate(time.Second)
+	claim := &ttnpb.EndDeviceAuthenticationCode{
+		ValidFrom: ttnpb.ProtoTimePtr(start),
+		Value:     "secret",
 	}
 	var created *ttnpb.EndDevice
 
@@ -107,8 +113,9 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 				"":     location,
 				"wifi": wifiLocation,
 			},
-			Picture:     picture,
-			ActivatedAt: ttnpb.ProtoTimePtr(stamp),
+			Picture:                 picture,
+			ActivatedAt:             ttnpb.ProtoTimePtr(stamp),
+			ClaimAuthenticationCode: claim,
 		})
 
 		if a.So(err, should.BeNil) && a.So(created, should.NotBeNil) {
@@ -133,6 +140,7 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 				"wifi": wifiLocation,
 			})
 			a.So(created.Picture, should.Resemble, picture)
+			a.So(created.ClaimAuthenticationCode, should.Resemble, claim)
 			a.So(*ttnpb.StdTime(created.ActivatedAt), should.Equal, stamp)
 			a.So(*ttnpb.StdTime(created.CreatedAt), should.HappenWithin, 5*time.Second, start)
 			a.So(*ttnpb.StdTime(created.UpdatedAt), should.HappenWithin, 5*time.Second, start)
@@ -251,6 +259,12 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 	updatedPicture := &ttnpb.Picture{
 		Sizes: map[uint32]string{0: "https://example.com/device_picture.jpg"},
 	}
+
+	updatedCAC := &ttnpb.EndDeviceAuthenticationCode{
+		ValidFrom: ttnpb.ProtoTimePtr(start),
+		ValidTo:   ttnpb.ProtoTimePtr(start.Add(time.Hour)),
+		Value:     "other secret",
+	}
 	var updated *ttnpb.EndDevice
 
 	t.Run("UpdateEndDevice", func(t *T) {
@@ -282,9 +296,10 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 				"":    updatedLocation,
 				"geo": extraLocation,
 			},
-			Picture:     updatedPicture,
-			ActivatedAt: ttnpb.ProtoTimePtr(stamp),
-			LastSeenAt:  ttnpb.ProtoTimePtr(stamp),
+			Picture:                 updatedPicture,
+			ActivatedAt:             ttnpb.ProtoTimePtr(stamp),
+			LastSeenAt:              ttnpb.ProtoTimePtr(stamp),
+			ClaimAuthenticationCode: updatedCAC,
 		}, mask)
 		if a.So(err, should.BeNil) && a.So(updated, should.NotBeNil) {
 			a.So(updated.GetIds().GetDeviceId(), should.Equal, "foo")
@@ -311,6 +326,7 @@ func (st *StoreTest) TestEndDeviceStoreCRUD(t *T) {
 			a.So(*ttnpb.StdTime(updated.LastSeenAt), should.Equal, stamp)
 			a.So(*ttnpb.StdTime(updated.CreatedAt), should.Equal, *ttnpb.StdTime(created.CreatedAt))
 			a.So(*ttnpb.StdTime(updated.UpdatedAt), should.HappenWithin, 5*time.Second, start)
+			a.So(updated.ClaimAuthenticationCode, should.Resemble, updatedCAC)
 		}
 	})
 
