@@ -64,6 +64,8 @@ type EndDevice struct {
 	EndDeviceCACValidTo   *time.Time
 }
 
+var endDeviceCACSeparator = []byte(":")
+
 func init() {
 	registerModel(&EndDevice{})
 }
@@ -151,7 +153,7 @@ var devicePBSetters = map[string]func(*ttnpb.EndDevice, *EndDevice){
 		pb.LastSeenAt = ttnpb.ProtoTime(dev.LastSeenAt)
 	},
 	endDeviceCACField: func(pb *ttnpb.EndDevice, dev *EndDevice) {
-		blocks := bytes.SplitN(dev.EndDeviceCACSecret, secretFieldSeparator, 2)
+		blocks := bytes.SplitN(dev.EndDeviceCACSecret, endDeviceCACSeparator, 2)
 		var secret *ttnpb.Secret
 		if len(blocks) == 2 {
 			secret = &ttnpb.Secret{
@@ -240,7 +242,7 @@ var deviceModelSetters = map[string]func(*EndDevice, *ttnpb.EndDevice){
 			if pb.EndDeviceCac.Secret != nil {
 				var secretBuffer bytes.Buffer
 				secretBuffer.WriteString(pb.EndDeviceCac.Secret.KeyId)
-				secretBuffer.Write(secretFieldSeparator)
+				secretBuffer.Write(endDeviceCACSeparator)
 				secretBuffer.Write(pb.EndDeviceCac.Secret.Value)
 				dev.EndDeviceCACSecret = secretBuffer.Bytes()
 			}

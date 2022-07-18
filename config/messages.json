@@ -5588,6 +5588,15 @@
       "file": "application_registry.go"
     }
   },
+  "error:pkg/identityserver:end_device_cac": {
+    "translations": {
+      "en": "invalid end device claim authentication code"
+    },
+    "description": {
+      "package": "pkg/identityserver",
+      "file": "end_device_registry.go"
+    }
+  },
   "error:pkg/identityserver:end_device_euis_taken": {
     "translations": {
       "en": "an end device with JoinEUI `{join_eui}` and DevEUI `{dev_eui}` is already registered as `{device_id}` in application `{application_id}`"

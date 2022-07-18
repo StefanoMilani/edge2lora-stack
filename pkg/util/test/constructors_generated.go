@@ -1004,6 +1004,14 @@ func (EndDeviceOptionNamespace) WithLastSeenAt(v *pbtypes.Timestamp) EndDeviceOp
 	}
 }
 
+// WithEndDeviceCac returns a EndDeviceOption, which returns a copy of ttnpb.EndDevice with EndDeviceCac set to v.
+func (EndDeviceOptionNamespace) WithEndDeviceCac(v *ttnpb.EndDeviceClaimAuthenticationCode) EndDeviceOption {
+	return func(x ttnpb.EndDevice) ttnpb.EndDevice {
+		x.EndDeviceCac = v
+		return x
+	}
+}
+
 // WithXXX_unrecognized returns a EndDeviceOption, which returns a copy of ttnpb.EndDevice with XXX_unrecognized set to v.
 func (EndDeviceOptionNamespace) WithXXX_unrecognized(v []byte) EndDeviceOption {
 	return func(x ttnpb.EndDevice) ttnpb.EndDevice {

@@ -548,7 +548,6 @@ message EndDeviceClaimAuthenticationCode {
   google.protobuf.Timestamp valid_to = 3;
 }
 
-
 // Defines an End Device registration and its state on the network.
 // The persistence of the EndDevice is divided between the Network Server, Application Server and Join Server.
 // SDKs are responsible for combining (if desired) the three.

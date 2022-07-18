@@ -81,8 +81,6 @@ func getHost(address string) string {
 	return address
 }
 
-var endDeviceAuthenticationCodeSeparator = ":"
-
 var (
 	errNetworkServerAddressMismatch = errors.DefineInvalidArgument(
 		"network_server_address_mismatch",
