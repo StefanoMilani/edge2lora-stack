@@ -158,7 +158,7 @@ func (is *IdentityServer) createEndDevice(ctx context.Context, req *ttnpb.Create
 	defer func() { is.setFullEndDevicePictureURL(ctx, dev) }()
 
 	// Store plaintext value to return in the update response to clients.
-	var ptCACSecret string
+	var ptCACSecret []byte
 
 	if edCAC := req.GetEndDevice().GetEndDeviceCac(); edCAC != nil {
 		var (
@@ -166,6 +166,7 @@ func (is *IdentityServer) createEndDevice(ctx context.Context, req *ttnpb.Create
 			value = edCAC.Secret.Value
 			keyID = is.config.EndDevices.EncryptionKeyID
 		)
+		ptCACSecret = value
 		if err = validateEndDeviceCAC(edCAC); err != nil {
 			return nil, err
 		}
@@ -205,8 +206,8 @@ func (is *IdentityServer) createEndDevice(ctx context.Context, req *ttnpb.Create
 		}
 		return nil, err
 	}
-	if ptCACSecret != "" {
-		dev.ClaimAuthenticationCode.Value = ptCACSecret
+	if ptCACSecret != nil {
+		dev.EndDeviceCac.Secret.Value = ptCACSecret
 	}
 	events.Publish(evtCreateEndDevice.NewWithIdentifiersAndData(ctx, req.EndDevice.Ids, nil))
 	return dev, nil
@@ -221,6 +222,12 @@ func (is *IdentityServer) getEndDevice(ctx context.Context, req *ttnpb.GetEndDev
 	if ttnpb.HasAnyField(ttnpb.TopLevelFields(req.FieldMask.GetPaths()), "picture") {
 		defer func() { is.setFullEndDevicePictureURL(ctx, dev) }()
 	}
+	if ttnpb.HasAnyField(
+		ttnpb.TopLevelFields(req.FieldMask.GetPaths()),
+		"end_device_cac",
+	) {
+		req.FieldMask.Paths = append(req.FieldMask.Paths, "end_device_cac")
+	}
 
 	err = is.store.Transact(ctx, func(ctx context.Context, st store.Store) (err error) {
 		dev, err = st.GetEndDevice(ctx, req.EndDeviceIds, req.FieldMask.GetPaths())
@@ -232,10 +239,10 @@ func (is *IdentityServer) getEndDevice(ctx context.Context, req *ttnpb.GetEndDev
 	if dev.EndDeviceCac != nil && dev.EndDeviceCac.Secret != nil {
 		var (
 			value = dev.EndDeviceCac.Secret.Value
-			key   = dev.EndDeviceCac.Secret.KeyId
+			keyID = dev.EndDeviceCac.Secret.KeyId
 		)
-		if key != "" {
-			value, err = is.KeyVault.Decrypt(ctx, value, key)
+		if keyID != "" {
+			value, err = is.KeyVault.Decrypt(ctx, value, keyID)
 			if err != nil {
 				return nil, err
 			}
@@ -243,7 +250,7 @@ func (is *IdentityServer) getEndDevice(ctx context.Context, req *ttnpb.GetEndDev
 			log.FromContext(ctx).Debug("No encryption key defined, return stored end device cac value")
 		}
 		dev.EndDeviceCac.Secret.Value = value
-		dev.EndDeviceCac.Secret.KeyId = is.config.Gateways.EncryptionKeyID
+		dev.EndDeviceCac.Secret.KeyId = keyID
 	}
 	return dev, nil
 }
@@ -346,16 +353,19 @@ func (is *IdentityServer) updateEndDevice(ctx context.Context, req *ttnpb.Update
 	}
 
 	// Store plaintext value to return in the update response to clients.
-	var ptCACSecret string
+	var ptCACSecret []byte
 
-	cacFieldPresent := ttnpb.HasAnyField(req.FieldMask.GetPaths(), "end_device_cac")
-	if cacFieldPresent && req.EndDevice.EndDeviceCac != nil {
+	if ttnpb.HasAnyField(
+		ttnpb.TopLevelFields(req.FieldMask.GetPaths()),
+		"end_device_cac",
+	) && req.EndDevice.EndDeviceCac != nil {
 		var (
 			edCAC = req.EndDevice.EndDeviceCac
 			value = edCAC.Secret.Value
 			keyID = is.config.EndDevices.EncryptionKeyID
 		)
-		ptCACSecret = string(value)
+		ptCACSecret = value
+		req.FieldMask.Paths = append(req.FieldMask.Paths, "end_device_cac")
 		if err = validateEndDeviceCAC(edCAC); err != nil {
 			return nil, err
 		}
@@ -381,10 +391,9 @@ func (is *IdentityServer) updateEndDevice(ctx context.Context, req *ttnpb.Update
 	}
 	events.Publish(evtUpdateEndDevice.NewWithIdentifiersAndData(ctx, req.EndDevice.Ids, req.FieldMask.GetPaths()))
 
-	if ptCACSecret != "" {
-		dev.ClaimAuthenticationCode.Value = ptCACSecret
+	if ptCACSecret != nil {
+		dev.EndDeviceCac.Secret.Value = ptCACSecret
 	}
-
 	return dev, nil
 }
 
