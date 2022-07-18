@@ -43,7 +43,7 @@ var (
 	selectEndDeviceListFlags   = util.NormalizedFlagSet()
 	selectEndDeviceFlags       = util.NormalizedFlagSet()
 	setEndDeviceFlags          = util.NormalizedFlagSet()
-	endDeviceFlattenPaths      = []string{"provisioning_data"}
+	endDeviceFlattenPaths      = []string{"provisioning_data", "end_device_cac"}
 	endDevicePictureFlags      = util.NormalizedFlagSet()
 	endDeviceLocationFlags     = util.NormalizedFlagSet()
 	getDefaultMACSettingsFlags = util.NormalizedFlagSet()
@@ -680,10 +680,6 @@ var (
 
 			if hasUpdateDeviceLocationFlags(cmd.Flags()) {
 				paths = append(paths, "locations")
-			}
-
-			if hasUpdateDeviceClaimAuthenticationCodeFlags(cmd.Flags()) {
-				paths = append(paths, "claim_authentication_code")
 			}
 
 			if len(paths)+len(unsetPaths) == 0 {
