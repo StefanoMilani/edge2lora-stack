@@ -60,7 +60,7 @@ var (
 var (
 	errEndDeviceEUIsTaken = errors.DefineAlreadyExists(
 		"end_device_euis_taken",
-		"an end device with JoinEUI `{join_eui}` and DevEUI `{dev_eui}` is already registered as `{device_id}` in application `{application_id}`",
+		"an end device with JoinEUI `{join_eui}` and DevEUI `{dev_eui}` is already registered as `{device_id}` in application `{application_id}`", //nolint:lll
 	)
 	errEndDeviceCAC = errors.DefineInvalidArgument("end_device_cac", "invalid end device claim authentication code")
 )

@@ -76,6 +76,40 @@ func (v *EndDeviceAuthenticationCode) FieldIsZero(p string) bool {
 }
 
 // FieldIsZero returns whether path p is zero.
+func (v *EndDeviceClaimAuthenticationCode) FieldIsZero(p string) bool {
+	if v == nil {
+		return true
+	}
+	switch p {
+	case "valid_from":
+		return v.ValidFrom == nil
+	case "valid_to":
+		return v.ValidTo == nil
+	case "secret":
+		return v.Secret == nil
+	case "secret.key_id":
+		return v.Secret.FieldIsZero("key_id")
+	case "secret.value":
+		return v.Secret.FieldIsZero("value")
+	}
+	panic(fmt.Sprintf("unknown path '%s'", p))
+}
+
+// FieldIsZero returns whether path p is zero.
+func (v *Secret) FieldIsZero(p string) bool {
+	if v == nil {
+		return true
+	}
+	switch p {
+	case "key_id":
+		return v.KeyId == ""
+	case "value":
+		return v.Value == nil
+	}
+	panic(fmt.Sprintf("unknown path '%s'", p))
+}
+
+// FieldIsZero returns whether path p is zero.
 func (v *ADRSettings_StaticMode) FieldIsZero(p string) bool {
 	if v == nil {
 		return true
@@ -1035,6 +1069,18 @@ func (v *EndDevice) FieldIsZero(p string) bool {
 		return v.Description == ""
 	case "downlink_margin":
 		return v.DownlinkMargin == 0
+	case "end_device_cac":
+		return v.EndDeviceCac == nil
+	case "end_device_cac.valid_from":
+		return v.EndDeviceCac.FieldIsZero("valid_from")
+	case "end_device_cac.valid_to":
+		return v.EndDeviceCac.FieldIsZero("valid_to")
+	case "end_device_cac.secret":
+		return v.EndDeviceCac.FieldIsZero("secret")
+	case "end_device_cac.secret.value":
+		return v.EndDeviceCac.FieldIsZero("secret.value")
+	case "end_device_cac.secret.key_id":
+		return v.EndDeviceCac.FieldIsZero("secret.key_id")
 	case "formatters":
 		return v.Formatters == nil
 	case "formatters.down_formatter":
