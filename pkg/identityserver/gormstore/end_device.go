@@ -245,6 +245,9 @@ var deviceModelSetters = map[string]func(*EndDevice, *ttnpb.EndDevice){
 				secretBuffer.Write(endDeviceCACSeparator)
 				secretBuffer.Write(pb.EndDeviceCac.Secret.Value)
 				dev.EndDeviceCACSecret = secretBuffer.Bytes()
+			} else {
+				// Clear the value stored in the database.
+				dev.EndDeviceCACSecret = nil
 			}
 			if pb.EndDeviceCac.ValidFrom != nil {
 				dev.EndDeviceCACValidFrom = ttnpb.StdTime(pb.EndDeviceCac.ValidFrom)

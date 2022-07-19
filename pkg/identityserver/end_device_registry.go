@@ -158,7 +158,7 @@ func (is *IdentityServer) createEndDevice(ctx context.Context, req *ttnpb.Create
 	// Store plaintext value to return in the update response to clients.
 	var ptCACSecret []byte
 
-	if edCAC := req.GetEndDevice().GetEndDeviceCac(); edCAC != nil {
+	if edCAC := req.GetEndDevice().GetEndDeviceCac(); edCAC != nil && edCAC.Secret != nil {
 		var (
 			edCAC = req.EndDevice.EndDeviceCac
 			value = edCAC.Secret.Value
@@ -363,21 +363,27 @@ func (is *IdentityServer) updateEndDevice(ctx context.Context, req *ttnpb.Update
 			keyID = is.config.EndDevices.EncryptionKeyID
 		)
 		ptCACSecret = value
-		req.FieldMask.Paths = append(req.FieldMask.Paths, "end_device_cac")
-		if err = validateEndDeviceCAC(edCAC); err != nil {
-			return nil, err
-		}
-		if keyID != "" {
-			value, err = is.KeyVault.Encrypt(ctx, value, keyID)
-			if err != nil {
+		if value == nil {
+			// This allows users to clear the End Device CAC stored in the database.
+			req.EndDevice.EndDeviceCac.Secret.Value = nil
+			req.EndDevice.EndDeviceCac.Secret.KeyId = ""
+		} else {
+			req.FieldMask.Paths = append(req.FieldMask.Paths, "end_device_cac")
+			if err = validateEndDeviceCAC(edCAC); err != nil {
 				return nil, err
 			}
-		} else {
-			logger := log.FromContext(ctx)
-			logger.Warn("No encryption key defined, store end device CAC in plaintext")
+			if keyID != "" {
+				value, err = is.KeyVault.Encrypt(ctx, value, keyID)
+				if err != nil {
+					return nil, err
+				}
+			} else {
+				logger := log.FromContext(ctx)
+				logger.Warn("No encryption key defined, store end device CAC in plaintext")
+			}
+			req.EndDevice.EndDeviceCac.Secret.Value = value
+			req.EndDevice.EndDeviceCac.Secret.KeyId = keyID
 		}
-		req.EndDevice.EndDeviceCac.Secret.Value = value
-		req.EndDevice.EndDeviceCac.Secret.KeyId = keyID
 	}
 
 	err = is.store.Transact(ctx, func(ctx context.Context, st store.Store) (err error) {

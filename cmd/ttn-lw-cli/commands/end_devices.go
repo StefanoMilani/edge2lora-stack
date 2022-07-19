@@ -509,7 +509,7 @@ var (
 				paths = append(paths, "claim_authentication_code")
 			}
 
-			claimOnExternalJS := len(device.ClaimAuthenticationCode.GetValue()) > 0
+			claimOnExternalJS := len(device.GetEndDeviceCac().GetSecret().GetValue()) > 0
 
 			if hasUpdateDeviceLocationFlags(cmd.Flags()) {
 				updateDeviceLocation(device, cmd.Flags())
@@ -602,7 +602,7 @@ var (
 							AuthenticatedIdentifiers: &ttnpb.ClaimEndDeviceRequest_AuthenticatedIdentifiers{
 								JoinEui:            device.Ids.JoinEui.Bytes(),
 								DevEui:             device.Ids.DevEui.Bytes(),
-								AuthenticationCode: device.ClaimAuthenticationCode.Value,
+								AuthenticationCode: hex.EncodeToString(device.GetEndDeviceCac().GetSecret().GetValue()),
 							},
 						},
 						TargetNetworkServerAddress: device.NetworkServerAddress,
