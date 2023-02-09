@@ -454,19 +454,11 @@ func (s *membershipStore) SetMember(
 		return err
 	}
 
-	// TODO: Refactor store interface to move this to a DeleteCollaborator method.
+	// TODO NICK: Remove this and update SetMember usage with nil rights to call deleteMember
 	// (https://github.com/TheThingsNetwork/lorawan-stack/issues/5587)
 	if len(rights.GetRights()) == 0 {
-		_, err = s.DB.NewDelete().
-			Model(model).
-			WherePK().
-			Exec(ctx)
-		if err != nil {
-			return storeutil.WrapDriverError(err)
-		}
-		return nil
+		return s.DeleteMember(ctx, accountID)
 	}
-
 	model.Rights = convertIntSlice[ttnpb.Right, int](rights.GetRights())
 
 	_, err = s.DB.NewUpdate().
@@ -478,6 +470,24 @@ func (s *membershipStore) SetMember(
 		return storeutil.WrapDriverError(err)
 	}
 
+	return nil
+}
+
+// DeleteMember elminates the direct member rights attached to an entity.
+func (s *membershipStore) DeleteMember(ctx context.Context, ids *ttnpb.OrganizationOrUserIdentifiers) error {
+	ctx, span := tracer.StartFromContext(ctx, "DeleteMember", trace.WithAttributes(
+		attribute.String("account_type", ids.EntityType()),
+		attribute.String("account_id", ids.IDString()),
+	))
+	defer span.End()
+
+	_, err := s.DB.NewDelete().
+		Model(&Membership{}).
+		WherePK().
+		Exec(ctx)
+	if err != nil {
+		return storeutil.WrapDriverError(err)
+	}
 	return nil
 }
 
