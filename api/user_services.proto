@@ -138,11 +138,18 @@ service UserAccess {
   };
 
   // Update the rights of an API key of the user.
-  // This method can also be used to delete the API key, by giving it no rights.
   // The caller is required to have all assigned or/and removed rights.
   rpc UpdateAPIKey(UpdateUserAPIKeyRequest) returns (APIKey) {
     option (google.api.http) = {
       put: "/users/{user_ids.user_id}/api-keys/{api_key.id}"
+      body: "*"
+    };
+  };
+
+  // DeteleAPIKey removes the API key of an user.
+  rpc DeleteAPIKey(DeleteUserAPIKeyRequest) returns (APIKey) {
+    option (google.api.http) = {
+      delete: "/users/{user_ids.user_id}/api-keys/{api_key.id}"
       body: "*"
     };
   };

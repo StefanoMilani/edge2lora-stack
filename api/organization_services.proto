@@ -129,11 +129,18 @@ service OrganizationAccess {
   };
 
   // Update the rights of an API key of the organization.
-  // This method can also be used to delete the API key, by giving it no rights.
   // The caller is required to have all assigned or/and removed rights.
   rpc UpdateAPIKey(UpdateOrganizationAPIKeyRequest) returns (APIKey) {
     option (google.api.http) = {
       put: "/organizations/{organization_ids.organization_id}/api-keys/{api_key.id}"
+      body: "*"
+    };
+  };
+
+  // DeteleAPIKey removes the API key of an organization.
+  rpc DeleteAPIKey(DeleteOrganizationAPIKeyRequest) returns (APIKey) {
+    option (google.api.http) = {
+      delete: "/organizations/{organization_ids.organization_id}/api-keys/{api_key.id}"
       body: "*"
     };
   };

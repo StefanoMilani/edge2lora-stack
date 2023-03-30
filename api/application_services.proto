@@ -144,11 +144,18 @@ service ApplicationAccess {
   };
 
   // Update the rights of an API key of the application.
-  // This method can also be used to delete the API key, by giving it no rights.
   // The caller is required to have all assigned or/and removed rights.
   rpc UpdateAPIKey(UpdateApplicationAPIKeyRequest) returns (APIKey) {
     option (google.api.http) = {
       put: "/applications/{application_ids.application_id}/api-keys/{api_key.id}"
+      body: "*"
+    };
+  };
+
+  // Delete the API key of the application.
+  rpc DeleteAPIKey(DeleteApplicationAPIKeyRequest) returns (APIKey) {
+    option (google.api.http) = {
+      delete: "/applications/{application_ids.application_id}/api-keys/{api_key.id}"
       body: "*"
     };
   };

@@ -840,6 +840,68 @@ func (x *UpdateApplicationAPIKeyRequest) UnmarshalJSON(b []byte) error {
 	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
 }
 
+// MarshalProtoJSON marshals the DeleteApplicationAPIKeyRequest message to JSON.
+func (x *DeleteApplicationAPIKeyRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
+	if x == nil {
+		s.WriteNil()
+		return
+	}
+	s.WriteObjectStart()
+	var wroteField bool
+	if x.ApplicationIds != nil || s.HasField("application_ids") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("application_ids")
+		// NOTE: ApplicationIdentifiers does not seem to implement MarshalProtoJSON.
+		golang.MarshalMessage(s, x.ApplicationIds)
+	}
+	if x.ApiKey != nil || s.HasField("api_key") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("api_key")
+		x.ApiKey.MarshalProtoJSON(s.WithField("api_key"))
+	}
+	s.WriteObjectEnd()
+}
+
+// MarshalJSON marshals the DeleteApplicationAPIKeyRequest to JSON.
+func (x *DeleteApplicationAPIKeyRequest) MarshalJSON() ([]byte, error) {
+	return jsonplugin.DefaultMarshalerConfig.Marshal(x)
+}
+
+// UnmarshalProtoJSON unmarshals the DeleteApplicationAPIKeyRequest message from JSON.
+func (x *DeleteApplicationAPIKeyRequest) UnmarshalProtoJSON(s *jsonplugin.UnmarshalState) {
+	if s.ReadNil() {
+		return
+	}
+	s.ReadObject(func(key string) {
+		switch key {
+		default:
+			s.ReadAny() // ignore unknown field
+		case "application_ids", "applicationIds":
+			s.AddField("application_ids")
+			if s.ReadNil() {
+				x.ApplicationIds = nil
+				return
+			}
+			// NOTE: ApplicationIdentifiers does not seem to implement UnmarshalProtoJSON.
+			var v ApplicationIdentifiers
+			golang.UnmarshalMessage(s, &v)
+			x.ApplicationIds = &v
+		case "api_key", "apiKey":
+			if s.ReadNil() {
+				x.ApiKey = nil
+				return
+			}
+			x.ApiKey = &APIKey{}
+			x.ApiKey.UnmarshalProtoJSON(s.WithField("api_key", true))
+		}
+	})
+}
+
+// UnmarshalJSON unmarshals the DeleteApplicationAPIKeyRequest from JSON.
+func (x *DeleteApplicationAPIKeyRequest) UnmarshalJSON(b []byte) error {
+	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
+}
+
 // MarshalProtoJSON marshals the SetApplicationCollaboratorRequest message to JSON.
 func (x *SetApplicationCollaboratorRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
 	if x == nil {

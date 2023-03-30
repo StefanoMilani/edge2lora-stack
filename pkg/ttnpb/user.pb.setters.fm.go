@@ -799,6 +799,67 @@ func (dst *UpdateUserAPIKeyRequest) SetFields(src *UpdateUserAPIKeyRequest, path
 	return nil
 }
 
+func (dst *DeleteUserAPIKeyRequest) SetFields(src *DeleteUserAPIKeyRequest, paths ...string) error {
+	for name, subs := range _processPaths(paths) {
+		switch name {
+		case "user_ids":
+			if len(subs) > 0 {
+				var newDst, newSrc *UserIdentifiers
+				if (src == nil || src.UserIds == nil) && dst.UserIds == nil {
+					continue
+				}
+				if src != nil {
+					newSrc = src.UserIds
+				}
+				if dst.UserIds != nil {
+					newDst = dst.UserIds
+				} else {
+					newDst = &UserIdentifiers{}
+					dst.UserIds = newDst
+				}
+				if err := newDst.SetFields(newSrc, subs...); err != nil {
+					return err
+				}
+			} else {
+				if src != nil {
+					dst.UserIds = src.UserIds
+				} else {
+					dst.UserIds = nil
+				}
+			}
+		case "api_key":
+			if len(subs) > 0 {
+				var newDst, newSrc *APIKey
+				if (src == nil || src.ApiKey == nil) && dst.ApiKey == nil {
+					continue
+				}
+				if src != nil {
+					newSrc = src.ApiKey
+				}
+				if dst.ApiKey != nil {
+					newDst = dst.ApiKey
+				} else {
+					newDst = &APIKey{}
+					dst.ApiKey = newDst
+				}
+				if err := newDst.SetFields(newSrc, subs...); err != nil {
+					return err
+				}
+			} else {
+				if src != nil {
+					dst.ApiKey = src.ApiKey
+				} else {
+					dst.ApiKey = nil
+				}
+			}
+
+		default:
+			return fmt.Errorf("invalid field: '%s'", name)
+		}
+	}
+	return nil
+}
+
 func (dst *Invitation) SetFields(src *Invitation, paths ...string) error {
 	for name, subs := range _processPaths(paths) {
 		switch name {

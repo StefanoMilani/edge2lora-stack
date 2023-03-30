@@ -73,6 +73,20 @@
         "updated_at"
       ]
     },
+    "DeleteAPIKey": {
+      "file": "lorawan-stack/api/application_services.proto",
+      "http": [
+        {
+          "method": "delete",
+          "pattern": "/applications/{application_ids.application_id}/api-keys/{api_key.id}",
+          "body": "*",
+          "parameters": [
+            "application_ids.application_id",
+            "api_key.id"
+          ]
+        }
+      ]
+    },
     "GetCollaborator": {
       "file": "lorawan-stack/api/application_services.proto",
       "http": [
@@ -2992,6 +3006,20 @@
         "updated_at"
       ]
     },
+    "DeleteAPIKey": {
+      "file": "lorawan-stack/api/gateway_services.proto",
+      "http": [
+        {
+          "method": "delete",
+          "pattern": "/gateways/{gateway_ids.gateway_id}/api-keys/{api_key.id}",
+          "body": "*",
+          "parameters": [
+            "gateway_ids.gateway_id",
+            "api_key.id"
+          ]
+        }
+      ]
+    },
     "GetCollaborator": {
       "file": "lorawan-stack/api/gateway_services.proto",
       "http": [
@@ -4975,6 +5003,20 @@
         "updated_at"
       ]
     },
+    "DeleteAPIKey": {
+      "file": "lorawan-stack/api/organization_services.proto",
+      "http": [
+        {
+          "method": "delete",
+          "pattern": "/organizations/{organization_ids.organization_id}/api-keys/{api_key.id}",
+          "body": "*",
+          "parameters": [
+            "organization_ids.organization_id",
+            "api_key.id"
+          ]
+        }
+      ]
+    },
     "GetCollaborator": {
       "file": "lorawan-stack/api/organization_services.proto",
       "http": [
@@ -5887,6 +5929,20 @@
         "name",
         "rights",
         "updated_at"
+      ]
+    },
+    "DeleteAPIKey": {
+      "file": "lorawan-stack/api/user_services.proto",
+      "http": [
+        {
+          "method": "delete",
+          "pattern": "/users/{user_ids.user_id}/api-keys/{api_key.id}",
+          "body": "*",
+          "parameters": [
+            "user_ids.user_id",
+            "api_key.id"
+          ]
+        }
       ]
     },
     "CreateLoginToken": {

@@ -494,6 +494,58 @@
           ]
         },
         {
+          "name": "DeleteApplicationAPIKeyRequest",
+          "longName": "DeleteApplicationAPIKeyRequest",
+          "fullName": "ttn.lorawan.v3.DeleteApplicationAPIKeyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "application_ids",
+              "description": "",
+              "label": "",
+              "type": "ApplicationIdentifiers",
+              "longType": "ApplicationIdentifiers",
+              "fullType": "ttn.lorawan.v3.ApplicationIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "api_key",
+              "description": "",
+              "label": "",
+              "type": "APIKey",
+              "longType": "APIKey",
+              "fullType": "ttn.lorawan.v3.APIKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetApplicationAPIKeyRequest",
           "longName": "GetApplicationAPIKeyRequest",
           "fullName": "ttn.lorawan.v3.GetApplicationAPIKeyRequest",
@@ -1229,7 +1281,7 @@
             },
             {
               "name": "UpdateAPIKey",
-              "description": "Update the rights of an API key of the application.\nThis method can also be used to delete the API key, by giving it no rights.\nThe caller is required to have all assigned or/and removed rights.",
+              "description": "Update the rights of an API key of the application.\nThe caller is required to have all assigned or/and removed rights.",
               "requestType": "UpdateApplicationAPIKeyRequest",
               "requestLongType": "UpdateApplicationAPIKeyRequest",
               "requestFullType": "ttn.lorawan.v3.UpdateApplicationAPIKeyRequest",
@@ -1243,6 +1295,29 @@
                   "rules": [
                     {
                       "method": "PUT",
+                      "pattern": "/applications/{application_ids.application_id}/api-keys/{api_key.id}",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteAPIKey",
+              "description": "Delete the API key of the application.",
+              "requestType": "DeleteApplicationAPIKeyRequest",
+              "requestLongType": "DeleteApplicationAPIKeyRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteApplicationAPIKeyRequest",
+              "requestStreaming": false,
+              "responseType": "APIKey",
+              "responseLongType": "APIKey",
+              "responseFullType": "ttn.lorawan.v3.APIKey",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
                       "pattern": "/applications/{application_ids.application_id}/api-keys/{api_key.id}",
                       "body": "*"
                     }
@@ -19421,6 +19496,58 @@
           ]
         },
         {
+          "name": "DeleteGatewayAPIKeyRequest",
+          "longName": "DeleteGatewayAPIKeyRequest",
+          "fullName": "ttn.lorawan.v3.DeleteGatewayAPIKeyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "gateway_ids",
+              "description": "",
+              "label": "",
+              "type": "GatewayIdentifiers",
+              "longType": "GatewayIdentifiers",
+              "fullType": "ttn.lorawan.v3.GatewayIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "api_key",
+              "description": "",
+              "label": "",
+              "type": "APIKey",
+              "longType": "APIKey",
+              "fullType": "ttn.lorawan.v3.APIKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Gateway",
           "longName": "Gateway",
           "fullName": "ttn.lorawan.v3.Gateway",
@@ -22036,6 +22163,29 @@
                   "rules": [
                     {
                       "method": "PUT",
+                      "pattern": "/gateways/{gateway_ids.gateway_id}/api-keys/{api_key.id}",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteAPIKey",
+              "description": "DeteleAPIKey removes the API key of an gateway.",
+              "requestType": "DeleteGatewayAPIKeyRequest",
+              "requestLongType": "DeleteGatewayAPIKeyRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteGatewayAPIKeyRequest",
+              "requestStreaming": false,
+              "responseType": "APIKey",
+              "responseLongType": "APIKey",
+              "responseFullType": "ttn.lorawan.v3.APIKey",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
                       "pattern": "/gateways/{gateway_ids.gateway_id}/api-keys/{api_key.id}",
                       "body": "*"
                     }
@@ -36511,6 +36661,58 @@
           ]
         },
         {
+          "name": "DeleteOrganizationAPIKeyRequest",
+          "longName": "DeleteOrganizationAPIKeyRequest",
+          "fullName": "ttn.lorawan.v3.DeleteOrganizationAPIKeyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "organization_ids",
+              "description": "",
+              "label": "",
+              "type": "OrganizationIdentifiers",
+              "longType": "OrganizationIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "api_key",
+              "description": "",
+              "label": "",
+              "type": "APIKey",
+              "longType": "APIKey",
+              "fullType": "ttn.lorawan.v3.APIKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetOrganizationAPIKeyRequest",
           "longName": "GetOrganizationAPIKeyRequest",
           "fullName": "ttn.lorawan.v3.GetOrganizationAPIKeyRequest",
@@ -37459,7 +37661,7 @@
             },
             {
               "name": "UpdateAPIKey",
-              "description": "Update the rights of an API key of the organization.\nThis method can also be used to delete the API key, by giving it no rights.\nThe caller is required to have all assigned or/and removed rights.",
+              "description": "Update the rights of an API key of the organization.\nThe caller is required to have all assigned or/and removed rights.",
               "requestType": "UpdateOrganizationAPIKeyRequest",
               "requestLongType": "UpdateOrganizationAPIKeyRequest",
               "requestFullType": "ttn.lorawan.v3.UpdateOrganizationAPIKeyRequest",
@@ -37473,6 +37675,29 @@
                   "rules": [
                     {
                       "method": "PUT",
+                      "pattern": "/organizations/{organization_ids.organization_id}/api-keys/{api_key.id}",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteAPIKey",
+              "description": "DeteleAPIKey removes the API key of an organization.",
+              "requestType": "DeleteOrganizationAPIKeyRequest",
+              "requestLongType": "DeleteOrganizationAPIKeyRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteOrganizationAPIKeyRequest",
+              "requestStreaming": false,
+              "responseType": "APIKey",
+              "responseLongType": "APIKey",
+              "responseFullType": "ttn.lorawan.v3.APIKey",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
                       "pattern": "/organizations/{organization_ids.organization_id}/api-keys/{api_key.id}",
                       "body": "*"
                     }
@@ -44040,6 +44265,58 @@
           ]
         },
         {
+          "name": "DeleteUserAPIKeyRequest",
+          "longName": "DeleteUserAPIKeyRequest",
+          "fullName": "ttn.lorawan.v3.DeleteUserAPIKeyRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "user_ids",
+              "description": "",
+              "label": "",
+              "type": "UserIdentifiers",
+              "longType": "UserIdentifiers",
+              "fullType": "ttn.lorawan.v3.UserIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "api_key",
+              "description": "",
+              "label": "",
+              "type": "APIKey",
+              "longType": "APIKey",
+              "fullType": "ttn.lorawan.v3.APIKey",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetUserAPIKeyRequest",
           "longName": "GetUserAPIKeyRequest",
           "fullName": "ttn.lorawan.v3.GetUserAPIKeyRequest",
@@ -45592,7 +45869,7 @@
             },
             {
               "name": "UpdateAPIKey",
-              "description": "Update the rights of an API key of the user.\nThis method can also be used to delete the API key, by giving it no rights.\nThe caller is required to have all assigned or/and removed rights.",
+              "description": "Update the rights of an API key of the user.\nThe caller is required to have all assigned or/and removed rights.",
               "requestType": "UpdateUserAPIKeyRequest",
               "requestLongType": "UpdateUserAPIKeyRequest",
               "requestFullType": "ttn.lorawan.v3.UpdateUserAPIKeyRequest",
@@ -45606,6 +45883,29 @@
                   "rules": [
                     {
                       "method": "PUT",
+                      "pattern": "/users/{user_ids.user_id}/api-keys/{api_key.id}",
+                      "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteAPIKey",
+              "description": "DeteleAPIKey removes the API key of an user.",
+              "requestType": "DeleteUserAPIKeyRequest",
+              "requestLongType": "DeleteUserAPIKeyRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteUserAPIKeyRequest",
+              "requestStreaming": false,
+              "responseType": "APIKey",
+              "responseLongType": "APIKey",
+              "responseFullType": "ttn.lorawan.v3.APIKey",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "DELETE",
                       "pattern": "/users/{user_ids.user_id}/api-keys/{api_key.id}",
                       "body": "*"
                     }

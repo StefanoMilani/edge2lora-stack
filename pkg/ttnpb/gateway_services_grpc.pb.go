@@ -415,6 +415,8 @@ type GatewayAccessClient interface {
 	// This method can also be used to delete the API key, by giving it no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	UpdateAPIKey(ctx context.Context, in *UpdateGatewayAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
+	// DeteleAPIKey removes the API key of an gateway.
+	DeleteAPIKey(ctx context.Context, in *DeleteGatewayAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
 	// Get the rights of a collaborator (member) of the gateway.
 	// Pseudo-rights in the response (such as the "_ALL" right) are not expanded.
 	GetCollaborator(ctx context.Context, in *GetGatewayCollaboratorRequest, opts ...grpc.CallOption) (*GetCollaboratorResponse, error)
@@ -479,6 +481,15 @@ func (c *gatewayAccessClient) UpdateAPIKey(ctx context.Context, in *UpdateGatewa
 	return out, nil
 }
 
+func (c *gatewayAccessClient) DeleteAPIKey(ctx context.Context, in *DeleteGatewayAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error) {
+	out := new(APIKey)
+	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.GatewayAccess/DeleteAPIKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gatewayAccessClient) GetCollaborator(ctx context.Context, in *GetGatewayCollaboratorRequest, opts ...grpc.CallOption) (*GetCollaboratorResponse, error) {
 	out := new(GetCollaboratorResponse)
 	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.GatewayAccess/GetCollaborator", in, out, opts...)
@@ -522,6 +533,8 @@ type GatewayAccessServer interface {
 	// This method can also be used to delete the API key, by giving it no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	UpdateAPIKey(context.Context, *UpdateGatewayAPIKeyRequest) (*APIKey, error)
+	// DeteleAPIKey removes the API key of an gateway.
+	DeleteAPIKey(context.Context, *DeleteGatewayAPIKeyRequest) (*APIKey, error)
 	// Get the rights of a collaborator (member) of the gateway.
 	// Pseudo-rights in the response (such as the "_ALL" right) are not expanded.
 	GetCollaborator(context.Context, *GetGatewayCollaboratorRequest) (*GetCollaboratorResponse, error)
@@ -552,6 +565,9 @@ func (UnimplementedGatewayAccessServer) GetAPIKey(context.Context, *GetGatewayAP
 }
 func (UnimplementedGatewayAccessServer) UpdateAPIKey(context.Context, *UpdateGatewayAPIKeyRequest) (*APIKey, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAPIKey not implemented")
+}
+func (UnimplementedGatewayAccessServer) DeleteAPIKey(context.Context, *DeleteGatewayAPIKeyRequest) (*APIKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAPIKey not implemented")
 }
 func (UnimplementedGatewayAccessServer) GetCollaborator(context.Context, *GetGatewayCollaboratorRequest) (*GetCollaboratorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollaborator not implemented")
@@ -665,6 +681,24 @@ func _GatewayAccess_UpdateAPIKey_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GatewayAccess_DeleteAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteGatewayAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayAccessServer).DeleteAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ttn.lorawan.v3.GatewayAccess/DeleteAPIKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayAccessServer).DeleteAPIKey(ctx, req.(*DeleteGatewayAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GatewayAccess_GetCollaborator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetGatewayCollaboratorRequest)
 	if err := dec(in); err != nil {
@@ -745,6 +779,10 @@ var GatewayAccess_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAPIKey",
 			Handler:    _GatewayAccess_UpdateAPIKey_Handler,
+		},
+		{
+			MethodName: "DeleteAPIKey",
+			Handler:    _GatewayAccess_DeleteAPIKey_Handler,
 		},
 		{
 			MethodName: "GetCollaborator",

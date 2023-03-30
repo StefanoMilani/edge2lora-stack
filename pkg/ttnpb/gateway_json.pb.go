@@ -1206,6 +1206,64 @@ func (x *UpdateGatewayAPIKeyRequest) UnmarshalJSON(b []byte) error {
 	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
 }
 
+// MarshalProtoJSON marshals the DeleteGatewayAPIKeyRequest message to JSON.
+func (x *DeleteGatewayAPIKeyRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
+	if x == nil {
+		s.WriteNil()
+		return
+	}
+	s.WriteObjectStart()
+	var wroteField bool
+	if x.GatewayIds != nil || s.HasField("gateway_ids") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("gateway_ids")
+		x.GatewayIds.MarshalProtoJSON(s.WithField("gateway_ids"))
+	}
+	if x.ApiKey != nil || s.HasField("api_key") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("api_key")
+		x.ApiKey.MarshalProtoJSON(s.WithField("api_key"))
+	}
+	s.WriteObjectEnd()
+}
+
+// MarshalJSON marshals the DeleteGatewayAPIKeyRequest to JSON.
+func (x *DeleteGatewayAPIKeyRequest) MarshalJSON() ([]byte, error) {
+	return jsonplugin.DefaultMarshalerConfig.Marshal(x)
+}
+
+// UnmarshalProtoJSON unmarshals the DeleteGatewayAPIKeyRequest message from JSON.
+func (x *DeleteGatewayAPIKeyRequest) UnmarshalProtoJSON(s *jsonplugin.UnmarshalState) {
+	if s.ReadNil() {
+		return
+	}
+	s.ReadObject(func(key string) {
+		switch key {
+		default:
+			s.ReadAny() // ignore unknown field
+		case "gateway_ids", "gatewayIds":
+			if s.ReadNil() {
+				x.GatewayIds = nil
+				return
+			}
+			x.GatewayIds = &GatewayIdentifiers{}
+			x.GatewayIds.UnmarshalProtoJSON(s.WithField("gateway_ids", true))
+		case "api_key", "apiKey":
+			if s.ReadNil() {
+				x.ApiKey = nil
+				return
+			}
+			x.ApiKey = &APIKey{}
+			x.ApiKey.UnmarshalProtoJSON(s.WithField("api_key", true))
+		}
+	})
+}
+
+// UnmarshalJSON unmarshals the DeleteGatewayAPIKeyRequest from JSON.
+func (x *DeleteGatewayAPIKeyRequest) UnmarshalJSON(b []byte) error {
+	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
+}
+
 // MarshalProtoJSON marshals the ListGatewayCollaboratorsRequest message to JSON.
 func (x *ListGatewayCollaboratorsRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
 	if x == nil {

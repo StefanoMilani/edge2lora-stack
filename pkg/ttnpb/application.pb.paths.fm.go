@@ -230,6 +230,23 @@ var UpdateApplicationAPIKeyRequestFieldPathsTopLevel = []string{
 	"application_ids",
 	"field_mask",
 }
+var DeleteApplicationAPIKeyRequestFieldPathsNested = []string{
+	"api_key",
+	"api_key.created_at",
+	"api_key.expires_at",
+	"api_key.id",
+	"api_key.key",
+	"api_key.name",
+	"api_key.rights",
+	"api_key.updated_at",
+	"application_ids",
+	"application_ids.application_id",
+}
+
+var DeleteApplicationAPIKeyRequestFieldPathsTopLevel = []string{
+	"api_key",
+	"application_ids",
+}
 var ListApplicationCollaboratorsRequestFieldPathsNested = []string{
 	"application_ids",
 	"application_ids.application_id",

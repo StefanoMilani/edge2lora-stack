@@ -444,9 +444,10 @@ type UserAccessClient interface {
 	// Get a single API key of this user.
 	GetAPIKey(ctx context.Context, in *GetUserAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
 	// Update the rights of an API key of the user.
-	// This method can also be used to delete the API key, by giving it no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	UpdateAPIKey(ctx context.Context, in *UpdateUserAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
+	// DeteleAPIKey removes the API key of an user.
+	DeleteAPIKey(ctx context.Context, in *DeleteUserAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error)
 	// Create a login token that can be used for a one-time login as a user.
 	CreateLoginToken(ctx context.Context, in *CreateLoginTokenRequest, opts ...grpc.CallOption) (*CreateLoginTokenResponse, error)
 }
@@ -504,6 +505,15 @@ func (c *userAccessClient) UpdateAPIKey(ctx context.Context, in *UpdateUserAPIKe
 	return out, nil
 }
 
+func (c *userAccessClient) DeleteAPIKey(ctx context.Context, in *DeleteUserAPIKeyRequest, opts ...grpc.CallOption) (*APIKey, error) {
+	out := new(APIKey)
+	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.UserAccess/DeleteAPIKey", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *userAccessClient) CreateLoginToken(ctx context.Context, in *CreateLoginTokenRequest, opts ...grpc.CallOption) (*CreateLoginTokenResponse, error) {
 	out := new(CreateLoginTokenResponse)
 	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.UserAccess/CreateLoginToken", in, out, opts...)
@@ -528,9 +538,10 @@ type UserAccessServer interface {
 	// Get a single API key of this user.
 	GetAPIKey(context.Context, *GetUserAPIKeyRequest) (*APIKey, error)
 	// Update the rights of an API key of the user.
-	// This method can also be used to delete the API key, by giving it no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	UpdateAPIKey(context.Context, *UpdateUserAPIKeyRequest) (*APIKey, error)
+	// DeteleAPIKey removes the API key of an user.
+	DeleteAPIKey(context.Context, *DeleteUserAPIKeyRequest) (*APIKey, error)
 	// Create a login token that can be used for a one-time login as a user.
 	CreateLoginToken(context.Context, *CreateLoginTokenRequest) (*CreateLoginTokenResponse, error)
 	mustEmbedUnimplementedUserAccessServer()
@@ -554,6 +565,9 @@ func (UnimplementedUserAccessServer) GetAPIKey(context.Context, *GetUserAPIKeyRe
 }
 func (UnimplementedUserAccessServer) UpdateAPIKey(context.Context, *UpdateUserAPIKeyRequest) (*APIKey, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAPIKey not implemented")
+}
+func (UnimplementedUserAccessServer) DeleteAPIKey(context.Context, *DeleteUserAPIKeyRequest) (*APIKey, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAPIKey not implemented")
 }
 func (UnimplementedUserAccessServer) CreateLoginToken(context.Context, *CreateLoginTokenRequest) (*CreateLoginTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateLoginToken not implemented")
@@ -661,6 +675,24 @@ func _UserAccess_UpdateAPIKey_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserAccess_DeleteAPIKey_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteUserAPIKeyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserAccessServer).DeleteAPIKey(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ttn.lorawan.v3.UserAccess/DeleteAPIKey",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserAccessServer).DeleteAPIKey(ctx, req.(*DeleteUserAPIKeyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserAccess_CreateLoginToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateLoginTokenRequest)
 	if err := dec(in); err != nil {
@@ -705,6 +737,10 @@ var UserAccess_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAPIKey",
 			Handler:    _UserAccess_UpdateAPIKey_Handler,
+		},
+		{
+			MethodName: "DeleteAPIKey",
+			Handler:    _UserAccess_DeleteAPIKey_Handler,
 		},
 		{
 			MethodName: "CreateLoginToken",

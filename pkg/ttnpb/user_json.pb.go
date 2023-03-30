@@ -860,3 +860,65 @@ func (x *UpdateUserAPIKeyRequest) UnmarshalProtoJSON(s *jsonplugin.UnmarshalStat
 func (x *UpdateUserAPIKeyRequest) UnmarshalJSON(b []byte) error {
 	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
 }
+
+// MarshalProtoJSON marshals the DeleteUserAPIKeyRequest message to JSON.
+func (x *DeleteUserAPIKeyRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
+	if x == nil {
+		s.WriteNil()
+		return
+	}
+	s.WriteObjectStart()
+	var wroteField bool
+	if x.UserIds != nil || s.HasField("user_ids") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("user_ids")
+		// NOTE: UserIdentifiers does not seem to implement MarshalProtoJSON.
+		golang.MarshalMessage(s, x.UserIds)
+	}
+	if x.ApiKey != nil || s.HasField("api_key") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("api_key")
+		x.ApiKey.MarshalProtoJSON(s.WithField("api_key"))
+	}
+	s.WriteObjectEnd()
+}
+
+// MarshalJSON marshals the DeleteUserAPIKeyRequest to JSON.
+func (x *DeleteUserAPIKeyRequest) MarshalJSON() ([]byte, error) {
+	return jsonplugin.DefaultMarshalerConfig.Marshal(x)
+}
+
+// UnmarshalProtoJSON unmarshals the DeleteUserAPIKeyRequest message from JSON.
+func (x *DeleteUserAPIKeyRequest) UnmarshalProtoJSON(s *jsonplugin.UnmarshalState) {
+	if s.ReadNil() {
+		return
+	}
+	s.ReadObject(func(key string) {
+		switch key {
+		default:
+			s.ReadAny() // ignore unknown field
+		case "user_ids", "userIds":
+			s.AddField("user_ids")
+			if s.ReadNil() {
+				x.UserIds = nil
+				return
+			}
+			// NOTE: UserIdentifiers does not seem to implement UnmarshalProtoJSON.
+			var v UserIdentifiers
+			golang.UnmarshalMessage(s, &v)
+			x.UserIds = &v
+		case "api_key", "apiKey":
+			if s.ReadNil() {
+				x.ApiKey = nil
+				return
+			}
+			x.ApiKey = &APIKey{}
+			x.ApiKey.UnmarshalProtoJSON(s.WithField("api_key", true))
+		}
+	})
+}
+
+// UnmarshalJSON unmarshals the DeleteUserAPIKeyRequest from JSON.
+func (x *DeleteUserAPIKeyRequest) UnmarshalJSON(b []byte) error {
+	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
+}

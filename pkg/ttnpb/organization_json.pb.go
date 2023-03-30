@@ -765,6 +765,68 @@ func (x *UpdateOrganizationAPIKeyRequest) UnmarshalJSON(b []byte) error {
 	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
 }
 
+// MarshalProtoJSON marshals the DeleteOrganizationAPIKeyRequest message to JSON.
+func (x *DeleteOrganizationAPIKeyRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
+	if x == nil {
+		s.WriteNil()
+		return
+	}
+	s.WriteObjectStart()
+	var wroteField bool
+	if x.OrganizationIds != nil || s.HasField("organization_ids") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("organization_ids")
+		// NOTE: OrganizationIdentifiers does not seem to implement MarshalProtoJSON.
+		golang.MarshalMessage(s, x.OrganizationIds)
+	}
+	if x.ApiKey != nil || s.HasField("api_key") {
+		s.WriteMoreIf(&wroteField)
+		s.WriteObjectField("api_key")
+		x.ApiKey.MarshalProtoJSON(s.WithField("api_key"))
+	}
+	s.WriteObjectEnd()
+}
+
+// MarshalJSON marshals the DeleteOrganizationAPIKeyRequest to JSON.
+func (x *DeleteOrganizationAPIKeyRequest) MarshalJSON() ([]byte, error) {
+	return jsonplugin.DefaultMarshalerConfig.Marshal(x)
+}
+
+// UnmarshalProtoJSON unmarshals the DeleteOrganizationAPIKeyRequest message from JSON.
+func (x *DeleteOrganizationAPIKeyRequest) UnmarshalProtoJSON(s *jsonplugin.UnmarshalState) {
+	if s.ReadNil() {
+		return
+	}
+	s.ReadObject(func(key string) {
+		switch key {
+		default:
+			s.ReadAny() // ignore unknown field
+		case "organization_ids", "organizationIds":
+			s.AddField("organization_ids")
+			if s.ReadNil() {
+				x.OrganizationIds = nil
+				return
+			}
+			// NOTE: OrganizationIdentifiers does not seem to implement UnmarshalProtoJSON.
+			var v OrganizationIdentifiers
+			golang.UnmarshalMessage(s, &v)
+			x.OrganizationIds = &v
+		case "api_key", "apiKey":
+			if s.ReadNil() {
+				x.ApiKey = nil
+				return
+			}
+			x.ApiKey = &APIKey{}
+			x.ApiKey.UnmarshalProtoJSON(s.WithField("api_key", true))
+		}
+	})
+}
+
+// UnmarshalJSON unmarshals the DeleteOrganizationAPIKeyRequest from JSON.
+func (x *DeleteOrganizationAPIKeyRequest) UnmarshalJSON(b []byte) error {
+	return jsonplugin.DefaultUnmarshalerConfig.Unmarshal(b, x)
+}
+
 // MarshalProtoJSON marshals the SetOrganizationCollaboratorRequest message to JSON.
 func (x *SetOrganizationCollaboratorRequest) MarshalProtoJSON(s *jsonplugin.MarshalState) {
 	if x == nil {

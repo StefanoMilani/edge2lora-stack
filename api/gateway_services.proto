@@ -148,6 +148,14 @@ service GatewayAccess {
     };
   };
 
+  // DeteleAPIKey removes the API key of an gateway.
+  rpc DeleteAPIKey(DeleteGatewayAPIKeyRequest) returns (APIKey) {
+    option (google.api.http) = {
+      delete: "/gateways/{gateway_ids.gateway_id}/api-keys/{api_key.id}"
+      body: "*"
+    };
+  };
+
   // Get the rights of a collaborator (member) of the gateway.
   // Pseudo-rights in the response (such as the "_ALL" right) are not expanded.
   rpc GetCollaborator(GetGatewayCollaboratorRequest) returns (GetCollaboratorResponse) {
