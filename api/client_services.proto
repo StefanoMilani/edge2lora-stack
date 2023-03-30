@@ -132,6 +132,19 @@ service ClientAccess {
     };
   };
 
+  // DeleteCollaborator removes the rights of a collaborator (member) of the client.
+  rpc DeleteCollaborator(DeleteClientCollaboratorRequest) returns (GetCollaboratorResponse) {
+    option (google.api.http) = {
+      additional_bindings {
+        delete: "/clients/{client_ids.client_id}/collaborator/user/{collaborator.user_ids.user_id}"
+      }
+      additional_bindings {
+        delete: "/clients/{client_ids.client_id}/collaborator/organization/{collaborator.organization_ids.organization_id}"
+      }
+    };
+  }
+
+
   // List the collaborators on this OAuth client.
   rpc ListCollaborators(ListClientCollaboratorsRequest) returns (Collaborators) {
     option (google.api.http) = {

@@ -183,6 +183,18 @@ service ApplicationAccess {
     };
   };
 
+  // DeleteCollaborator removes the rights of a collaborator (member) of the application.
+  rpc DeleteCollaborator(DeleteApplicationCollaboratorRequest) returns (GetCollaboratorResponse) {
+    option (google.api.http) = {
+      additional_bindings {
+        delete: "/applications/{application_ids.application_id}/collaborator/user/{collaborator.user_ids.user_id}"
+      }
+      additional_bindings {
+        delete: "/applications/{application_ids.application_id}/collaborator/organization/{collaborator.organization_ids.organization_id}"
+      }
+    };
+  }
+
   // List the collaborators on this application.
   rpc ListCollaborators(ListApplicationCollaboratorsRequest) returns (Collaborators) {
     option (google.api.http) = {

@@ -126,6 +126,32 @@
         }
       ]
     },
+    "DeleteCollaborator": {
+      "file": "lorawan-stack/api/application_services.proto",
+      "http": [
+        {
+          "method": "",
+          "pattern": "",
+          "parameters": []
+        },
+        {
+          "method": "delete",
+          "pattern": "/applications/{application_ids.application_id}/collaborator/user/{collaborator.user_ids.user_id}",
+          "parameters": [
+            "application_ids.application_id",
+            "collaborator.user_ids.user_id"
+          ]
+        },
+        {
+          "method": "delete",
+          "pattern": "/applications/{application_ids.application_id}/collaborator/organization/{collaborator.organization_ids.organization_id}",
+          "parameters": [
+            "application_ids.application_id",
+            "collaborator.organization_ids.organization_id"
+          ]
+        }
+      ]
+    },
     "ListCollaborators": {
       "file": "lorawan-stack/api/application_services.proto",
       "http": [
@@ -1941,6 +1967,32 @@
         }
       ]
     },
+    "DeleteCollaborator": {
+      "file": "lorawan-stack/api/client_services.proto",
+      "http": [
+        {
+          "method": "",
+          "pattern": "",
+          "parameters": []
+        },
+        {
+          "method": "delete",
+          "pattern": "/clients/{client_ids.client_id}/collaborator/user/{collaborator.user_ids.user_id}",
+          "parameters": [
+            "client_ids.client_id",
+            "collaborator.user_ids.user_id"
+          ]
+        },
+        {
+          "method": "delete",
+          "pattern": "/clients/{client_ids.client_id}/collaborator/organization/{collaborator.organization_ids.organization_id}",
+          "parameters": [
+            "client_ids.client_id",
+            "collaborator.organization_ids.organization_id"
+          ]
+        }
+      ]
+    },
     "ListCollaborators": {
       "file": "lorawan-stack/api/client_services.proto",
       "http": [
@@ -3039,6 +3091,33 @@
         {
           "method": "get",
           "pattern": "/gateways/{gateway_ids.gateway_id}/collaborator/organization/{collaborator.organization_ids.organization_id}",
+          "parameters": [
+            "gateway_ids.gateway_id",
+            "collaborator.organization_ids.organization_id"
+          ]
+        }
+      ]
+    },
+    "DeleteCollaborator": {
+      "file": "lorawan-stack/api/gateway_services.proto",
+      "http": [
+        {
+          "method": "",
+          "pattern": "",
+          "body": "*",
+          "parameters": []
+        },
+        {
+          "method": "delete",
+          "pattern": "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.user_ids.user_id}",
+          "parameters": [
+            "gateway_ids.gateway_id",
+            "collaborator.user_ids.user_id"
+          ]
+        },
+        {
+          "method": "delete",
+          "pattern": "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.organization_ids.organization_id}",
           "parameters": [
             "gateway_ids.gateway_id",
             "collaborator.organization_ids.organization_id"
@@ -5044,6 +5123,25 @@
           "body": "*",
           "parameters": [
             "organization_ids.organization_id"
+          ]
+        }
+      ]
+    },
+    "DeleteCollaborator": {
+      "file": "lorawan-stack/api/organization_services.proto",
+      "http": [
+        {
+          "method": "",
+          "pattern": "",
+          "body": "*",
+          "parameters": []
+        },
+        {
+          "method": "delete",
+          "pattern": "/organizations/{organization_ids.organization_id}/collaborator/user/{collaborator.user_ids.user_id}",
+          "parameters": [
+            "organization_ids.organization_id",
+            "collaborator.user_ids.user_id"
           ]
         }
       ]

@@ -485,6 +485,23 @@ var SetGatewayCollaboratorRequestFieldPathsTopLevel = []string{
 	"collaborator",
 	"gateway_ids",
 }
+var DeleteGatewayCollaboratorRequestFieldPathsNested = []string{
+	"collaborator",
+	"collaborator.ids",
+	"collaborator.ids.organization_ids",
+	"collaborator.ids.organization_ids.organization_id",
+	"collaborator.ids.user_ids",
+	"collaborator.ids.user_ids.email",
+	"collaborator.ids.user_ids.user_id",
+	"gateway_ids",
+	"gateway_ids.eui",
+	"gateway_ids.gateway_id",
+}
+
+var DeleteGatewayCollaboratorRequestFieldPathsTopLevel = []string{
+	"collaborator",
+	"gateway_ids",
+}
 var GatewayAntennaFieldPathsNested = []string{
 	"attributes",
 	"gain",

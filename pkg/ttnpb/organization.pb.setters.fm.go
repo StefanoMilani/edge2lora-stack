@@ -905,3 +905,64 @@ func (dst *SetOrganizationCollaboratorRequest) SetFields(src *SetOrganizationCol
 	}
 	return nil
 }
+
+func (dst *DeleteOrganizationCollaboratorRequest) SetFields(src *DeleteOrganizationCollaboratorRequest, paths ...string) error {
+	for name, subs := range _processPaths(paths) {
+		switch name {
+		case "organization_ids":
+			if len(subs) > 0 {
+				var newDst, newSrc *OrganizationIdentifiers
+				if (src == nil || src.OrganizationIds == nil) && dst.OrganizationIds == nil {
+					continue
+				}
+				if src != nil {
+					newSrc = src.OrganizationIds
+				}
+				if dst.OrganizationIds != nil {
+					newDst = dst.OrganizationIds
+				} else {
+					newDst = &OrganizationIdentifiers{}
+					dst.OrganizationIds = newDst
+				}
+				if err := newDst.SetFields(newSrc, subs...); err != nil {
+					return err
+				}
+			} else {
+				if src != nil {
+					dst.OrganizationIds = src.OrganizationIds
+				} else {
+					dst.OrganizationIds = nil
+				}
+			}
+		case "collaborator":
+			if len(subs) > 0 {
+				var newDst, newSrc *OrganizationOrUserIdentifiers
+				if (src == nil || src.Collaborator == nil) && dst.Collaborator == nil {
+					continue
+				}
+				if src != nil {
+					newSrc = src.Collaborator
+				}
+				if dst.Collaborator != nil {
+					newDst = dst.Collaborator
+				} else {
+					newDst = &OrganizationOrUserIdentifiers{}
+					dst.Collaborator = newDst
+				}
+				if err := newDst.SetFields(newSrc, subs...); err != nil {
+					return err
+				}
+			} else {
+				if src != nil {
+					dst.Collaborator = src.Collaborator
+				} else {
+					dst.Collaborator = nil
+				}
+			}
+
+		default:
+			return fmt.Errorf("invalid field: '%s'", name)
+		}
+	}
+	return nil
+}

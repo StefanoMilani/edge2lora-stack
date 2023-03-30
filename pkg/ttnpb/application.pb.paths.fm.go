@@ -295,3 +295,19 @@ var SetApplicationCollaboratorRequestFieldPathsTopLevel = []string{
 	"application_ids",
 	"collaborator",
 }
+var DeleteApplicationCollaboratorRequestFieldPathsNested = []string{
+	"application_ids",
+	"application_ids.application_id",
+	"collaborator",
+	"collaborator.ids",
+	"collaborator.ids.organization_ids",
+	"collaborator.ids.organization_ids.organization_id",
+	"collaborator.ids.user_ids",
+	"collaborator.ids.user_ids.email",
+	"collaborator.ids.user_ids.user_id",
+}
+
+var DeleteApplicationCollaboratorRequestFieldPathsTopLevel = []string{
+	"application_ids",
+	"collaborator",
+}

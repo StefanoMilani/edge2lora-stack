@@ -384,9 +384,10 @@ type OrganizationAccessClient interface {
 	// Set the rights of a collaborator (member) on the organization.
 	// Organization collaborators can get access to the organization itself, as well as
 	// any application, gateway and OAuth client this organization is a collaborator of.
-	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(ctx context.Context, in *SetOrganizationCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// DeleteCollaborator removes the rights of a user in the organization.
+	DeleteCollaborator(ctx context.Context, in *DeleteOrganizationCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// List the collaborators on this organization.
 	ListCollaborators(ctx context.Context, in *ListOrganizationCollaboratorsRequest, opts ...grpc.CallOption) (*Collaborators, error)
 }
@@ -471,6 +472,15 @@ func (c *organizationAccessClient) SetCollaborator(ctx context.Context, in *SetO
 	return out, nil
 }
 
+func (c *organizationAccessClient) DeleteCollaborator(ctx context.Context, in *DeleteOrganizationCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.OrganizationAccess/DeleteCollaborator", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *organizationAccessClient) ListCollaborators(ctx context.Context, in *ListOrganizationCollaboratorsRequest, opts ...grpc.CallOption) (*Collaborators, error) {
 	out := new(Collaborators)
 	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.OrganizationAccess/ListCollaborators", in, out, opts...)
@@ -505,9 +515,10 @@ type OrganizationAccessServer interface {
 	// Set the rights of a collaborator (member) on the organization.
 	// Organization collaborators can get access to the organization itself, as well as
 	// any application, gateway and OAuth client this organization is a collaborator of.
-	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(context.Context, *SetOrganizationCollaboratorRequest) (*emptypb.Empty, error)
+	// DeleteCollaborator removes the rights of a user in the organization.
+	DeleteCollaborator(context.Context, *DeleteOrganizationCollaboratorRequest) (*emptypb.Empty, error)
 	// List the collaborators on this organization.
 	ListCollaborators(context.Context, *ListOrganizationCollaboratorsRequest) (*Collaborators, error)
 	mustEmbedUnimplementedOrganizationAccessServer()
@@ -540,6 +551,9 @@ func (UnimplementedOrganizationAccessServer) GetCollaborator(context.Context, *G
 }
 func (UnimplementedOrganizationAccessServer) SetCollaborator(context.Context, *SetOrganizationCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCollaborator not implemented")
+}
+func (UnimplementedOrganizationAccessServer) DeleteCollaborator(context.Context, *DeleteOrganizationCollaboratorRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollaborator not implemented")
 }
 func (UnimplementedOrganizationAccessServer) ListCollaborators(context.Context, *ListOrganizationCollaboratorsRequest) (*Collaborators, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCollaborators not implemented")
@@ -701,6 +715,24 @@ func _OrganizationAccess_SetCollaborator_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OrganizationAccess_DeleteCollaborator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteOrganizationCollaboratorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OrganizationAccessServer).DeleteCollaborator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ttn.lorawan.v3.OrganizationAccess/DeleteCollaborator",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OrganizationAccessServer).DeleteCollaborator(ctx, req.(*DeleteOrganizationCollaboratorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _OrganizationAccess_ListCollaborators_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListOrganizationCollaboratorsRequest)
 	if err := dec(in); err != nil {
@@ -757,6 +789,10 @@ var OrganizationAccess_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetCollaborator",
 			Handler:    _OrganizationAccess_SetCollaborator_Handler,
+		},
+		{
+			MethodName: "DeleteCollaborator",
+			Handler:    _OrganizationAccess_DeleteCollaborator_Handler,
 		},
 		{
 			MethodName: "ListCollaborators",

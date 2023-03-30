@@ -158,11 +158,20 @@ service OrganizationAccess {
   // Set the rights of a collaborator (member) on the organization.
   // Organization collaborators can get access to the organization itself, as well as
   // any application, gateway and OAuth client this organization is a collaborator of.
-  // This method can also be used to delete the collaborator, by giving them no rights.
   // The caller is required to have all assigned or/and removed rights.
   rpc SetCollaborator(SetOrganizationCollaboratorRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "/organizations/{organization_ids.organization_id}/collaborators"
+      body: "*"
+    };
+  };
+
+  // DeleteCollaborator removes the rights of a user in the organization.
+  rpc DeleteCollaborator(DeleteOrganizationCollaboratorRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      additional_bindings {
+        delete: "/organizations/{organization_ids.organization_id}/collaborator/user/{collaborator.user_ids.user_id}"
+      }
       body: "*"
     };
   };

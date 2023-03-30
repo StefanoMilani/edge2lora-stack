@@ -1092,6 +1092,61 @@ func (x *SetApplicationCollaboratorRequest) GetCollaborator() *Collaborator {
 	return nil
 }
 
+type DeleteApplicationCollaboratorRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ApplicationIds *ApplicationIdentifiers        `protobuf:"bytes,1,opt,name=application_ids,json=applicationIds,proto3" json:"application_ids,omitempty"`
+	Collaborator   *OrganizationOrUserIdentifiers `protobuf:"bytes,2,opt,name=collaborator,proto3" json:"collaborator,omitempty"`
+}
+
+func (x *DeleteApplicationCollaboratorRequest) Reset() {
+	*x = DeleteApplicationCollaboratorRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_lorawan_stack_api_application_proto_msgTypes[15]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeleteApplicationCollaboratorRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeleteApplicationCollaboratorRequest) ProtoMessage() {}
+
+func (x *DeleteApplicationCollaboratorRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_lorawan_stack_api_application_proto_msgTypes[15]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeleteApplicationCollaboratorRequest.ProtoReflect.Descriptor instead.
+func (*DeleteApplicationCollaboratorRequest) Descriptor() ([]byte, []int) {
+	return file_lorawan_stack_api_application_proto_rawDescGZIP(), []int{15}
+}
+
+func (x *DeleteApplicationCollaboratorRequest) GetApplicationIds() *ApplicationIdentifiers {
+	if x != nil {
+		return x.ApplicationIds
+	}
+	return nil
+}
+
+func (x *DeleteApplicationCollaboratorRequest) GetCollaborator() *OrganizationOrUserIdentifiers {
+	if x != nil {
+		return x.Collaborator
+	}
+	return nil
+}
+
 var File_lorawan_stack_api_application_proto protoreflect.FileDescriptor
 
 var file_lorawan_stack_api_application_proto_rawDesc = []byte{
@@ -1411,10 +1466,24 @@ var file_lorawan_stack_api_application_proto_rawDesc = []byte{
 	0x6e, 0x2e, 0x6c, 0x6f, 0x72, 0x61, 0x77, 0x61, 0x6e, 0x2e, 0x76, 0x33, 0x2e, 0x43, 0x6f, 0x6c,
 	0x6c, 0x61, 0x62, 0x6f, 0x72, 0x61, 0x74, 0x6f, 0x72, 0x42, 0x08, 0xfa, 0x42, 0x05, 0x8a, 0x01,
 	0x02, 0x10, 0x01, 0x52, 0x0c, 0x63, 0x6f, 0x6c, 0x6c, 0x61, 0x62, 0x6f, 0x72, 0x61, 0x74, 0x6f,
-	0x72, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x6f, 0x2e, 0x74, 0x68, 0x65, 0x74, 0x68, 0x69, 0x6e, 0x67,
-	0x73, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6c, 0x6f, 0x72, 0x61, 0x77, 0x61,
-	0x6e, 0x2d, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x76, 0x33, 0x2f, 0x70, 0x6b, 0x67, 0x2f, 0x74,
-	0x74, 0x6e, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x72, 0x22, 0xde, 0x01, 0x0a, 0x24, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x70, 0x70, 0x6c,
+	0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x43, 0x6f, 0x6c, 0x6c, 0x61, 0x62, 0x6f, 0x72, 0x61,
+	0x74, 0x6f, 0x72, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x59, 0x0a, 0x0f, 0x61, 0x70,
+	0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x69, 0x64, 0x73, 0x18, 0x01, 0x20,
+	0x01, 0x28, 0x0b, 0x32, 0x26, 0x2e, 0x74, 0x74, 0x6e, 0x2e, 0x6c, 0x6f, 0x72, 0x61, 0x77, 0x61,
+	0x6e, 0x2e, 0x76, 0x33, 0x2e, 0x41, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e,
+	0x49, 0x64, 0x65, 0x6e, 0x74, 0x69, 0x66, 0x69, 0x65, 0x72, 0x73, 0x42, 0x08, 0xfa, 0x42, 0x05,
+	0x8a, 0x01, 0x02, 0x10, 0x01, 0x52, 0x0e, 0x61, 0x70, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69,
+	0x6f, 0x6e, 0x49, 0x64, 0x73, 0x12, 0x5b, 0x0a, 0x0c, 0x63, 0x6f, 0x6c, 0x6c, 0x61, 0x62, 0x6f,
+	0x72, 0x61, 0x74, 0x6f, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x2d, 0x2e, 0x74, 0x74,
+	0x6e, 0x2e, 0x6c, 0x6f, 0x72, 0x61, 0x77, 0x61, 0x6e, 0x2e, 0x76, 0x33, 0x2e, 0x4f, 0x72, 0x67,
+	0x61, 0x6e, 0x69, 0x7a, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x4f, 0x72, 0x55, 0x73, 0x65, 0x72, 0x49,
+	0x64, 0x65, 0x6e, 0x74, 0x69, 0x66, 0x69, 0x65, 0x72, 0x73, 0x42, 0x08, 0xfa, 0x42, 0x05, 0x8a,
+	0x01, 0x02, 0x10, 0x01, 0x52, 0x0c, 0x63, 0x6f, 0x6c, 0x6c, 0x61, 0x62, 0x6f, 0x72, 0x61, 0x74,
+	0x6f, 0x72, 0x42, 0x31, 0x5a, 0x2f, 0x67, 0x6f, 0x2e, 0x74, 0x68, 0x65, 0x74, 0x68, 0x69, 0x6e,
+	0x67, 0x73, 0x2e, 0x6e, 0x65, 0x74, 0x77, 0x6f, 0x72, 0x6b, 0x2f, 0x6c, 0x6f, 0x72, 0x61, 0x77,
+	0x61, 0x6e, 0x2d, 0x73, 0x74, 0x61, 0x63, 0x6b, 0x2f, 0x76, 0x33, 0x2f, 0x70, 0x6b, 0x67, 0x2f,
+	0x74, 0x74, 0x6e, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1429,71 +1498,74 @@ func file_lorawan_stack_api_application_proto_rawDescGZIP() []byte {
 	return file_lorawan_stack_api_application_proto_rawDescData
 }
 
-var file_lorawan_stack_api_application_proto_msgTypes = make([]protoimpl.MessageInfo, 16)
+var file_lorawan_stack_api_application_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
 var file_lorawan_stack_api_application_proto_goTypes = []interface{}{
-	(*Application)(nil),                         // 0: ttn.lorawan.v3.Application
-	(*Applications)(nil),                        // 1: ttn.lorawan.v3.Applications
-	(*IssueDevEUIResponse)(nil),                 // 2: ttn.lorawan.v3.IssueDevEUIResponse
-	(*GetApplicationRequest)(nil),               // 3: ttn.lorawan.v3.GetApplicationRequest
-	(*ListApplicationsRequest)(nil),             // 4: ttn.lorawan.v3.ListApplicationsRequest
-	(*CreateApplicationRequest)(nil),            // 5: ttn.lorawan.v3.CreateApplicationRequest
-	(*UpdateApplicationRequest)(nil),            // 6: ttn.lorawan.v3.UpdateApplicationRequest
-	(*ListApplicationAPIKeysRequest)(nil),       // 7: ttn.lorawan.v3.ListApplicationAPIKeysRequest
-	(*GetApplicationAPIKeyRequest)(nil),         // 8: ttn.lorawan.v3.GetApplicationAPIKeyRequest
-	(*CreateApplicationAPIKeyRequest)(nil),      // 9: ttn.lorawan.v3.CreateApplicationAPIKeyRequest
-	(*UpdateApplicationAPIKeyRequest)(nil),      // 10: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest
-	(*DeleteApplicationAPIKeyRequest)(nil),      // 11: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest
-	(*ListApplicationCollaboratorsRequest)(nil), // 12: ttn.lorawan.v3.ListApplicationCollaboratorsRequest
-	(*GetApplicationCollaboratorRequest)(nil),   // 13: ttn.lorawan.v3.GetApplicationCollaboratorRequest
-	(*SetApplicationCollaboratorRequest)(nil),   // 14: ttn.lorawan.v3.SetApplicationCollaboratorRequest
-	nil,                                   // 15: ttn.lorawan.v3.Application.AttributesEntry
-	(*ApplicationIdentifiers)(nil),        // 16: ttn.lorawan.v3.ApplicationIdentifiers
-	(*timestamppb.Timestamp)(nil),         // 17: google.protobuf.Timestamp
-	(*ContactInfo)(nil),                   // 18: ttn.lorawan.v3.ContactInfo
-	(*OrganizationOrUserIdentifiers)(nil), // 19: ttn.lorawan.v3.OrganizationOrUserIdentifiers
-	(*fieldmaskpb.FieldMask)(nil),         // 20: google.protobuf.FieldMask
-	(Right)(0),                            // 21: ttn.lorawan.v3.Right
-	(*APIKey)(nil),                        // 22: ttn.lorawan.v3.APIKey
-	(*Collaborator)(nil),                  // 23: ttn.lorawan.v3.Collaborator
+	(*Application)(nil),                          // 0: ttn.lorawan.v3.Application
+	(*Applications)(nil),                         // 1: ttn.lorawan.v3.Applications
+	(*IssueDevEUIResponse)(nil),                  // 2: ttn.lorawan.v3.IssueDevEUIResponse
+	(*GetApplicationRequest)(nil),                // 3: ttn.lorawan.v3.GetApplicationRequest
+	(*ListApplicationsRequest)(nil),              // 4: ttn.lorawan.v3.ListApplicationsRequest
+	(*CreateApplicationRequest)(nil),             // 5: ttn.lorawan.v3.CreateApplicationRequest
+	(*UpdateApplicationRequest)(nil),             // 6: ttn.lorawan.v3.UpdateApplicationRequest
+	(*ListApplicationAPIKeysRequest)(nil),        // 7: ttn.lorawan.v3.ListApplicationAPIKeysRequest
+	(*GetApplicationAPIKeyRequest)(nil),          // 8: ttn.lorawan.v3.GetApplicationAPIKeyRequest
+	(*CreateApplicationAPIKeyRequest)(nil),       // 9: ttn.lorawan.v3.CreateApplicationAPIKeyRequest
+	(*UpdateApplicationAPIKeyRequest)(nil),       // 10: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest
+	(*DeleteApplicationAPIKeyRequest)(nil),       // 11: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest
+	(*ListApplicationCollaboratorsRequest)(nil),  // 12: ttn.lorawan.v3.ListApplicationCollaboratorsRequest
+	(*GetApplicationCollaboratorRequest)(nil),    // 13: ttn.lorawan.v3.GetApplicationCollaboratorRequest
+	(*SetApplicationCollaboratorRequest)(nil),    // 14: ttn.lorawan.v3.SetApplicationCollaboratorRequest
+	(*DeleteApplicationCollaboratorRequest)(nil), // 15: ttn.lorawan.v3.DeleteApplicationCollaboratorRequest
+	nil,                                   // 16: ttn.lorawan.v3.Application.AttributesEntry
+	(*ApplicationIdentifiers)(nil),        // 17: ttn.lorawan.v3.ApplicationIdentifiers
+	(*timestamppb.Timestamp)(nil),         // 18: google.protobuf.Timestamp
+	(*ContactInfo)(nil),                   // 19: ttn.lorawan.v3.ContactInfo
+	(*OrganizationOrUserIdentifiers)(nil), // 20: ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	(*fieldmaskpb.FieldMask)(nil),         // 21: google.protobuf.FieldMask
+	(Right)(0),                            // 22: ttn.lorawan.v3.Right
+	(*APIKey)(nil),                        // 23: ttn.lorawan.v3.APIKey
+	(*Collaborator)(nil),                  // 24: ttn.lorawan.v3.Collaborator
 }
 var file_lorawan_stack_api_application_proto_depIdxs = []int32{
-	16, // 0: ttn.lorawan.v3.Application.ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	17, // 1: ttn.lorawan.v3.Application.created_at:type_name -> google.protobuf.Timestamp
-	17, // 2: ttn.lorawan.v3.Application.updated_at:type_name -> google.protobuf.Timestamp
-	17, // 3: ttn.lorawan.v3.Application.deleted_at:type_name -> google.protobuf.Timestamp
-	15, // 4: ttn.lorawan.v3.Application.attributes:type_name -> ttn.lorawan.v3.Application.AttributesEntry
-	18, // 5: ttn.lorawan.v3.Application.contact_info:type_name -> ttn.lorawan.v3.ContactInfo
-	19, // 6: ttn.lorawan.v3.Application.administrative_contact:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
-	19, // 7: ttn.lorawan.v3.Application.technical_contact:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	17, // 0: ttn.lorawan.v3.Application.ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	18, // 1: ttn.lorawan.v3.Application.created_at:type_name -> google.protobuf.Timestamp
+	18, // 2: ttn.lorawan.v3.Application.updated_at:type_name -> google.protobuf.Timestamp
+	18, // 3: ttn.lorawan.v3.Application.deleted_at:type_name -> google.protobuf.Timestamp
+	16, // 4: ttn.lorawan.v3.Application.attributes:type_name -> ttn.lorawan.v3.Application.AttributesEntry
+	19, // 5: ttn.lorawan.v3.Application.contact_info:type_name -> ttn.lorawan.v3.ContactInfo
+	20, // 6: ttn.lorawan.v3.Application.administrative_contact:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	20, // 7: ttn.lorawan.v3.Application.technical_contact:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
 	0,  // 8: ttn.lorawan.v3.Applications.applications:type_name -> ttn.lorawan.v3.Application
-	16, // 9: ttn.lorawan.v3.GetApplicationRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	20, // 10: ttn.lorawan.v3.GetApplicationRequest.field_mask:type_name -> google.protobuf.FieldMask
-	19, // 11: ttn.lorawan.v3.ListApplicationsRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
-	20, // 12: ttn.lorawan.v3.ListApplicationsRequest.field_mask:type_name -> google.protobuf.FieldMask
+	17, // 9: ttn.lorawan.v3.GetApplicationRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	21, // 10: ttn.lorawan.v3.GetApplicationRequest.field_mask:type_name -> google.protobuf.FieldMask
+	20, // 11: ttn.lorawan.v3.ListApplicationsRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	21, // 12: ttn.lorawan.v3.ListApplicationsRequest.field_mask:type_name -> google.protobuf.FieldMask
 	0,  // 13: ttn.lorawan.v3.CreateApplicationRequest.application:type_name -> ttn.lorawan.v3.Application
-	19, // 14: ttn.lorawan.v3.CreateApplicationRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	20, // 14: ttn.lorawan.v3.CreateApplicationRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
 	0,  // 15: ttn.lorawan.v3.UpdateApplicationRequest.application:type_name -> ttn.lorawan.v3.Application
-	20, // 16: ttn.lorawan.v3.UpdateApplicationRequest.field_mask:type_name -> google.protobuf.FieldMask
-	16, // 17: ttn.lorawan.v3.ListApplicationAPIKeysRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	16, // 18: ttn.lorawan.v3.GetApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	16, // 19: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	21, // 20: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.rights:type_name -> ttn.lorawan.v3.Right
-	17, // 21: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.expires_at:type_name -> google.protobuf.Timestamp
-	16, // 22: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	22, // 23: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.api_key:type_name -> ttn.lorawan.v3.APIKey
-	20, // 24: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.field_mask:type_name -> google.protobuf.FieldMask
-	16, // 25: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	22, // 26: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest.api_key:type_name -> ttn.lorawan.v3.APIKey
-	16, // 27: ttn.lorawan.v3.ListApplicationCollaboratorsRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	16, // 28: ttn.lorawan.v3.GetApplicationCollaboratorRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	19, // 29: ttn.lorawan.v3.GetApplicationCollaboratorRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
-	16, // 30: ttn.lorawan.v3.SetApplicationCollaboratorRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
-	23, // 31: ttn.lorawan.v3.SetApplicationCollaboratorRequest.collaborator:type_name -> ttn.lorawan.v3.Collaborator
-	32, // [32:32] is the sub-list for method output_type
-	32, // [32:32] is the sub-list for method input_type
-	32, // [32:32] is the sub-list for extension type_name
-	32, // [32:32] is the sub-list for extension extendee
-	0,  // [0:32] is the sub-list for field type_name
+	21, // 16: ttn.lorawan.v3.UpdateApplicationRequest.field_mask:type_name -> google.protobuf.FieldMask
+	17, // 17: ttn.lorawan.v3.ListApplicationAPIKeysRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	17, // 18: ttn.lorawan.v3.GetApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	17, // 19: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	22, // 20: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.rights:type_name -> ttn.lorawan.v3.Right
+	18, // 21: ttn.lorawan.v3.CreateApplicationAPIKeyRequest.expires_at:type_name -> google.protobuf.Timestamp
+	17, // 22: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	23, // 23: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.api_key:type_name -> ttn.lorawan.v3.APIKey
+	21, // 24: ttn.lorawan.v3.UpdateApplicationAPIKeyRequest.field_mask:type_name -> google.protobuf.FieldMask
+	17, // 25: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	23, // 26: ttn.lorawan.v3.DeleteApplicationAPIKeyRequest.api_key:type_name -> ttn.lorawan.v3.APIKey
+	17, // 27: ttn.lorawan.v3.ListApplicationCollaboratorsRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	17, // 28: ttn.lorawan.v3.GetApplicationCollaboratorRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	20, // 29: ttn.lorawan.v3.GetApplicationCollaboratorRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	17, // 30: ttn.lorawan.v3.SetApplicationCollaboratorRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	24, // 31: ttn.lorawan.v3.SetApplicationCollaboratorRequest.collaborator:type_name -> ttn.lorawan.v3.Collaborator
+	17, // 32: ttn.lorawan.v3.DeleteApplicationCollaboratorRequest.application_ids:type_name -> ttn.lorawan.v3.ApplicationIdentifiers
+	20, // 33: ttn.lorawan.v3.DeleteApplicationCollaboratorRequest.collaborator:type_name -> ttn.lorawan.v3.OrganizationOrUserIdentifiers
+	34, // [34:34] is the sub-list for method output_type
+	34, // [34:34] is the sub-list for method input_type
+	34, // [34:34] is the sub-list for extension type_name
+	34, // [34:34] is the sub-list for extension extendee
+	0,  // [0:34] is the sub-list for field type_name
 }
 
 func init() { file_lorawan_stack_api_application_proto_init() }
@@ -1685,6 +1757,18 @@ func file_lorawan_stack_api_application_proto_init() {
 				return nil
 			}
 		}
+		file_lorawan_stack_api_application_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeleteApplicationCollaboratorRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -1692,7 +1776,7 @@ func file_lorawan_stack_api_application_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_lorawan_stack_api_application_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   16,
+			NumMessages:   17,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

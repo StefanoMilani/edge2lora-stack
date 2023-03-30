@@ -194,3 +194,10 @@ message SetOrganizationCollaboratorRequest {
   OrganizationIdentifiers organization_ids = 1 [(validate.rules).message.required = true];
   Collaborator collaborator = 2 [(validate.rules).message.required = true];
 }
+
+message DeleteOrganizationCollaboratorRequest {
+  OrganizationIdentifiers organization_ids = 1 [(validate.rules).message.required = true];
+  // NOTE: It is currently not possible to have organizations collaborating on
+  // other organizations.
+  OrganizationOrUserIdentifiers collaborator = 2 [(validate.rules).message.required = true];
+}

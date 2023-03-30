@@ -420,8 +420,9 @@ type GatewayAccessClient interface {
 	// Get the rights of a collaborator (member) of the gateway.
 	// Pseudo-rights in the response (such as the "_ALL" right) are not expanded.
 	GetCollaborator(ctx context.Context, in *GetGatewayCollaboratorRequest, opts ...grpc.CallOption) (*GetCollaboratorResponse, error)
+	// DeleteCollaborator removes the rights of a collaborator (member) of the gateway.
+	DeleteCollaborator(ctx context.Context, in *DeleteGatewayCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// Set the rights of a collaborator (member) on the gateway.
-	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(ctx context.Context, in *SetGatewayCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	// List the collaborators on this gateway.
@@ -499,6 +500,15 @@ func (c *gatewayAccessClient) GetCollaborator(ctx context.Context, in *GetGatewa
 	return out, nil
 }
 
+func (c *gatewayAccessClient) DeleteCollaborator(ctx context.Context, in *DeleteGatewayCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
+	out := new(emptypb.Empty)
+	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.GatewayAccess/DeleteCollaborator", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *gatewayAccessClient) SetCollaborator(ctx context.Context, in *SetGatewayCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.GatewayAccess/SetCollaborator", in, out, opts...)
@@ -538,8 +548,9 @@ type GatewayAccessServer interface {
 	// Get the rights of a collaborator (member) of the gateway.
 	// Pseudo-rights in the response (such as the "_ALL" right) are not expanded.
 	GetCollaborator(context.Context, *GetGatewayCollaboratorRequest) (*GetCollaboratorResponse, error)
+	// DeleteCollaborator removes the rights of a collaborator (member) of the gateway.
+	DeleteCollaborator(context.Context, *DeleteGatewayCollaboratorRequest) (*emptypb.Empty, error)
 	// Set the rights of a collaborator (member) on the gateway.
-	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(context.Context, *SetGatewayCollaboratorRequest) (*emptypb.Empty, error)
 	// List the collaborators on this gateway.
@@ -571,6 +582,9 @@ func (UnimplementedGatewayAccessServer) DeleteAPIKey(context.Context, *DeleteGat
 }
 func (UnimplementedGatewayAccessServer) GetCollaborator(context.Context, *GetGatewayCollaboratorRequest) (*GetCollaboratorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetCollaborator not implemented")
+}
+func (UnimplementedGatewayAccessServer) DeleteCollaborator(context.Context, *DeleteGatewayCollaboratorRequest) (*emptypb.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollaborator not implemented")
 }
 func (UnimplementedGatewayAccessServer) SetCollaborator(context.Context, *SetGatewayCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCollaborator not implemented")
@@ -717,6 +731,24 @@ func _GatewayAccess_GetCollaborator_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GatewayAccess_DeleteCollaborator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteGatewayCollaboratorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GatewayAccessServer).DeleteCollaborator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ttn.lorawan.v3.GatewayAccess/DeleteCollaborator",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GatewayAccessServer).DeleteCollaborator(ctx, req.(*DeleteGatewayCollaboratorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _GatewayAccess_SetCollaborator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SetGatewayCollaboratorRequest)
 	if err := dec(in); err != nil {
@@ -787,6 +819,10 @@ var GatewayAccess_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetCollaborator",
 			Handler:    _GatewayAccess_GetCollaborator_Handler,
+		},
+		{
+			MethodName: "DeleteCollaborator",
+			Handler:    _GatewayAccess_DeleteCollaborator_Handler,
 		},
 		{
 			MethodName: "SetCollaborator",

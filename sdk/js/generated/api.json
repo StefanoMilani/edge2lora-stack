@@ -546,6 +546,58 @@
           ]
         },
         {
+          "name": "DeleteApplicationCollaboratorRequest",
+          "longName": "DeleteApplicationCollaboratorRequest",
+          "fullName": "ttn.lorawan.v3.DeleteApplicationCollaboratorRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "application_ids",
+              "description": "",
+              "label": "",
+              "type": "ApplicationIdentifiers",
+              "longType": "ApplicationIdentifiers",
+              "fullType": "ttn.lorawan.v3.ApplicationIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "collaborator",
+              "description": "",
+              "label": "",
+              "type": "OrganizationOrUserIdentifiers",
+              "longType": "OrganizationOrUserIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationOrUserIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetApplicationAPIKeyRequest",
           "longName": "GetApplicationAPIKeyRequest",
           "fullName": "ttn.lorawan.v3.GetApplicationAPIKeyRequest",
@@ -1373,6 +1425,36 @@
                       "method": "PUT",
                       "pattern": "/applications/{application_ids.application_id}/collaborators",
                       "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteCollaborator",
+              "description": "DeleteCollaborator removes the rights of a collaborator (member) of the application.",
+              "requestType": "DeleteApplicationCollaboratorRequest",
+              "requestLongType": "DeleteApplicationCollaboratorRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteApplicationCollaboratorRequest",
+              "requestStreaming": false,
+              "responseType": "GetCollaboratorResponse",
+              "responseLongType": "GetCollaboratorResponse",
+              "responseFullType": "ttn.lorawan.v3.GetCollaboratorResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "",
+                      "pattern": ""
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/applications/{application_ids.application_id}/collaborator/user/{collaborator.user_ids.user_id}"
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/applications/{application_ids.application_id}/collaborator/organization/{collaborator.organization_ids.organization_id}"
                     }
                   ]
                 }
@@ -7967,6 +8049,58 @@
           ]
         },
         {
+          "name": "DeleteClientCollaboratorRequest",
+          "longName": "DeleteClientCollaboratorRequest",
+          "fullName": "ttn.lorawan.v3.DeleteClientCollaboratorRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "client_ids",
+              "description": "",
+              "label": "",
+              "type": "ClientIdentifiers",
+              "longType": "ClientIdentifiers",
+              "fullType": "ttn.lorawan.v3.ClientIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "collaborator",
+              "description": "",
+              "label": "",
+              "type": "OrganizationOrUserIdentifiers",
+              "longType": "OrganizationOrUserIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationOrUserIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetClientCollaboratorRequest",
           "longName": "GetClientCollaboratorRequest",
           "fullName": "ttn.lorawan.v3.GetClientCollaboratorRequest",
@@ -8447,6 +8581,36 @@
                       "method": "PUT",
                       "pattern": "/clients/{client_ids.client_id}/collaborators",
                       "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteCollaborator",
+              "description": "DeleteCollaborator removes the rights of a collaborator (member) of the client.",
+              "requestType": "DeleteClientCollaboratorRequest",
+              "requestLongType": "DeleteClientCollaboratorRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteClientCollaboratorRequest",
+              "requestStreaming": false,
+              "responseType": "GetCollaboratorResponse",
+              "responseLongType": "GetCollaboratorResponse",
+              "responseFullType": "ttn.lorawan.v3.GetCollaboratorResponse",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "",
+                      "pattern": ""
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/clients/{client_ids.client_id}/collaborator/user/{collaborator.user_ids.user_id}"
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/clients/{client_ids.client_id}/collaborator/organization/{collaborator.organization_ids.organization_id}"
                     }
                   ]
                 }
@@ -19548,6 +19712,58 @@
           ]
         },
         {
+          "name": "DeleteGatewayCollaboratorRequest",
+          "longName": "DeleteGatewayCollaboratorRequest",
+          "fullName": "ttn.lorawan.v3.DeleteGatewayCollaboratorRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "gateway_ids",
+              "description": "",
+              "label": "",
+              "type": "GatewayIdentifiers",
+              "longType": "GatewayIdentifiers",
+              "fullType": "ttn.lorawan.v3.GatewayIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "collaborator",
+              "description": "",
+              "label": "",
+              "type": "OrganizationOrUserIdentifiers",
+              "longType": "OrganizationOrUserIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationOrUserIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "Gateway",
           "longName": "Gateway",
           "fullName": "ttn.lorawan.v3.Gateway",
@@ -22224,8 +22440,39 @@
               }
             },
             {
+              "name": "DeleteCollaborator",
+              "description": "DeleteCollaborator removes the rights of a collaborator (member) of the gateway.",
+              "requestType": "DeleteGatewayCollaboratorRequest",
+              "requestLongType": "DeleteGatewayCollaboratorRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteGatewayCollaboratorRequest",
+              "requestStreaming": false,
+              "responseType": "Empty",
+              "responseLongType": ".google.protobuf.Empty",
+              "responseFullType": "google.protobuf.Empty",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "",
+                      "pattern": "",
+                      "body": "*"
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.user_ids.user_id}"
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.organization_ids.organization_id}"
+                    }
+                  ]
+                }
+              }
+            },
+            {
               "name": "SetCollaborator",
-              "description": "Set the rights of a collaborator (member) on the gateway.\nThis method can also be used to delete the collaborator, by giving them no rights.\nThe caller is required to have all assigned or/and removed rights.",
+              "description": "Set the rights of a collaborator (member) on the gateway.\nThe caller is required to have all assigned or/and removed rights.",
               "requestType": "SetGatewayCollaboratorRequest",
               "requestLongType": "SetGatewayCollaboratorRequest",
               "requestFullType": "ttn.lorawan.v3.SetGatewayCollaboratorRequest",
@@ -36713,6 +36960,58 @@
           ]
         },
         {
+          "name": "DeleteOrganizationCollaboratorRequest",
+          "longName": "DeleteOrganizationCollaboratorRequest",
+          "fullName": "ttn.lorawan.v3.DeleteOrganizationCollaboratorRequest",
+          "description": "",
+          "hasExtensions": false,
+          "hasFields": true,
+          "hasOneofs": false,
+          "extensions": [],
+          "fields": [
+            {
+              "name": "organization_ids",
+              "description": "",
+              "label": "",
+              "type": "OrganizationIdentifiers",
+              "longType": "OrganizationIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            },
+            {
+              "name": "collaborator",
+              "description": "NOTE: It is currently not possible to have organizations collaborating on\nother organizations.",
+              "label": "",
+              "type": "OrganizationOrUserIdentifiers",
+              "longType": "OrganizationOrUserIdentifiers",
+              "fullType": "ttn.lorawan.v3.OrganizationOrUserIdentifiers",
+              "ismap": false,
+              "isoneof": false,
+              "oneofdecl": "",
+              "defaultValue": "",
+              "options": {
+                "validate.rules": [
+                  {
+                    "name": "message.required",
+                    "value": true
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GetOrganizationAPIKeyRequest",
           "longName": "GetOrganizationAPIKeyRequest",
           "fullName": "ttn.lorawan.v3.GetOrganizationAPIKeyRequest",
@@ -37733,7 +38032,7 @@
             },
             {
               "name": "SetCollaborator",
-              "description": "Set the rights of a collaborator (member) on the organization.\nOrganization collaborators can get access to the organization itself, as well as\nany application, gateway and OAuth client this organization is a collaborator of.\nThis method can also be used to delete the collaborator, by giving them no rights.\nThe caller is required to have all assigned or/and removed rights.",
+              "description": "Set the rights of a collaborator (member) on the organization.\nOrganization collaborators can get access to the organization itself, as well as\nany application, gateway and OAuth client this organization is a collaborator of.\nThe caller is required to have all assigned or/and removed rights.",
               "requestType": "SetOrganizationCollaboratorRequest",
               "requestLongType": "SetOrganizationCollaboratorRequest",
               "requestFullType": "ttn.lorawan.v3.SetOrganizationCollaboratorRequest",
@@ -37749,6 +38048,33 @@
                       "method": "PUT",
                       "pattern": "/organizations/{organization_ids.organization_id}/collaborators",
                       "body": "*"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "DeleteCollaborator",
+              "description": "DeleteCollaborator removes the rights of a user in the organization.",
+              "requestType": "DeleteOrganizationCollaboratorRequest",
+              "requestLongType": "DeleteOrganizationCollaboratorRequest",
+              "requestFullType": "ttn.lorawan.v3.DeleteOrganizationCollaboratorRequest",
+              "requestStreaming": false,
+              "responseType": "Empty",
+              "responseLongType": ".google.protobuf.Empty",
+              "responseFullType": "google.protobuf.Empty",
+              "responseStreaming": false,
+              "options": {
+                "google.api.http": {
+                  "rules": [
+                    {
+                      "method": "",
+                      "pattern": "",
+                      "body": "*"
+                    },
+                    {
+                      "method": "DELETE",
+                      "pattern": "/organizations/{organization_ids.organization_id}/collaborator/user/{collaborator.user_ids.user_id}"
                     }
                   ]
                 }

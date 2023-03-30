@@ -368,6 +368,8 @@ type ClientAccessClient interface {
 	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(ctx context.Context, in *SetClientCollaboratorRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	// DeleteCollaborator removes the rights of a collaborator (member) of the client.
+	DeleteCollaborator(ctx context.Context, in *DeleteClientCollaboratorRequest, opts ...grpc.CallOption) (*GetCollaboratorResponse, error)
 	// List the collaborators on this OAuth client.
 	ListCollaborators(ctx context.Context, in *ListClientCollaboratorsRequest, opts ...grpc.CallOption) (*Collaborators, error)
 }
@@ -407,6 +409,15 @@ func (c *clientAccessClient) SetCollaborator(ctx context.Context, in *SetClientC
 	return out, nil
 }
 
+func (c *clientAccessClient) DeleteCollaborator(ctx context.Context, in *DeleteClientCollaboratorRequest, opts ...grpc.CallOption) (*GetCollaboratorResponse, error) {
+	out := new(GetCollaboratorResponse)
+	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.ClientAccess/DeleteCollaborator", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *clientAccessClient) ListCollaborators(ctx context.Context, in *ListClientCollaboratorsRequest, opts ...grpc.CallOption) (*Collaborators, error) {
 	out := new(Collaborators)
 	err := c.cc.Invoke(ctx, "/ttn.lorawan.v3.ClientAccess/ListCollaborators", in, out, opts...)
@@ -429,6 +440,8 @@ type ClientAccessServer interface {
 	// This method can also be used to delete the collaborator, by giving them no rights.
 	// The caller is required to have all assigned or/and removed rights.
 	SetCollaborator(context.Context, *SetClientCollaboratorRequest) (*emptypb.Empty, error)
+	// DeleteCollaborator removes the rights of a collaborator (member) of the client.
+	DeleteCollaborator(context.Context, *DeleteClientCollaboratorRequest) (*GetCollaboratorResponse, error)
 	// List the collaborators on this OAuth client.
 	ListCollaborators(context.Context, *ListClientCollaboratorsRequest) (*Collaborators, error)
 	mustEmbedUnimplementedClientAccessServer()
@@ -446,6 +459,9 @@ func (UnimplementedClientAccessServer) GetCollaborator(context.Context, *GetClie
 }
 func (UnimplementedClientAccessServer) SetCollaborator(context.Context, *SetClientCollaboratorRequest) (*emptypb.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SetCollaborator not implemented")
+}
+func (UnimplementedClientAccessServer) DeleteCollaborator(context.Context, *DeleteClientCollaboratorRequest) (*GetCollaboratorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteCollaborator not implemented")
 }
 func (UnimplementedClientAccessServer) ListCollaborators(context.Context, *ListClientCollaboratorsRequest) (*Collaborators, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListCollaborators not implemented")
@@ -517,6 +533,24 @@ func _ClientAccess_SetCollaborator_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _ClientAccess_DeleteCollaborator_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteClientCollaboratorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ClientAccessServer).DeleteCollaborator(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/ttn.lorawan.v3.ClientAccess/DeleteCollaborator",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ClientAccessServer).DeleteCollaborator(ctx, req.(*DeleteClientCollaboratorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _ClientAccess_ListCollaborators_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListClientCollaboratorsRequest)
 	if err := dec(in); err != nil {
@@ -553,6 +587,10 @@ var ClientAccess_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SetCollaborator",
 			Handler:    _ClientAccess_SetCollaborator_Handler,
+		},
+		{
+			MethodName: "DeleteCollaborator",
+			Handler:    _ClientAccess_DeleteCollaborator_Handler,
 		},
 		{
 			MethodName: "ListCollaborators",

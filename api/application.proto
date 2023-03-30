@@ -233,3 +233,8 @@ message SetApplicationCollaboratorRequest {
   ApplicationIdentifiers application_ids = 1 [(validate.rules).message.required = true];
   Collaborator collaborator = 2 [(validate.rules).message.required = true];
 }
+
+message DeleteApplicationCollaboratorRequest {
+  ApplicationIdentifiers application_ids = 1 [(validate.rules).message.required = true];
+  OrganizationOrUserIdentifiers collaborator = 2 [(validate.rules).message.required = true];
+}

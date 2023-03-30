@@ -169,8 +169,20 @@ service GatewayAccess {
     };
   }
 
+  // DeleteCollaborator removes the rights of a collaborator (member) of the gateway.
+  rpc DeleteCollaborator(DeleteGatewayCollaboratorRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      additional_bindings {
+        delete: "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.user_ids.user_id}"
+      }
+      additional_bindings {
+        delete: "/gateways/{gateway_ids.gateway_id}/collaborator/user/{collaborator.organization_ids.organization_id}"
+      }
+      body: "*"
+    };
+  };
+
   // Set the rights of a collaborator (member) on the gateway.
-  // This method can also be used to delete the collaborator, by giving them no rights.
   // The caller is required to have all assigned or/and removed rights.
   rpc SetCollaborator(SetGatewayCollaboratorRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
