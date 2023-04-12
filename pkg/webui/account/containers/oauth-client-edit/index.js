@@ -13,7 +13,7 @@
 // limitations under the License.
 
 import React, { useState, useCallback } from 'react'
-import { connect } from 'react-redux'
+import { connect, useSelector } from 'react-redux'
 import { push, replace } from 'connected-react-router'
 import { defineMessages } from 'react-intl'
 
@@ -24,6 +24,8 @@ import OAuthClientForm from '@account/components/oauth-client-form'
 import attachPromise from '@ttn-lw/lib/store/actions/attach-promise'
 import PropTypes from '@ttn-lw/lib/prop-types'
 import diff from '@ttn-lw/lib/diff'
+
+import { mayEditBasicClientInformation, checkFromState } from '@account/lib/feature-checks'
 
 import { deleteClient, updateClient } from '@account/store/actions/clients'
 
@@ -68,6 +70,9 @@ const ClientAdd = props => {
     updateOauthClient,
   } = props
 
+  const mayEditBasicInformation = useSelector(state =>
+    checkFromState(mayEditBasicClientInformation, state),
+  )
   const [error, setError] = useState()
   const handleSubmit = useCallback(
     async (values, resetForm, setSubmitting) => {
@@ -140,6 +145,7 @@ const ClientAdd = props => {
       isAdmin={isAdmin}
       rights={rights}
       pseudoRights={pseudoRights}
+      mayEditBasicInformation={mayEditBasicInformation}
     />
   )
 }
