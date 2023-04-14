@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => ({
     dispatch(
       getApplication(
         id,
-        'name,description,attributes,dev_eui_counter,network_server_address,application_server_address,join_server_address',
+        'name,description,attributes,dev_eui_counter,network_server_address,application_server_address,join_server_address,administrative_contact,technical_contact',
       ),
     )
     dispatch(getApplicationsRightsList(id))

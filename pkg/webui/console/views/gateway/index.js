@@ -103,6 +103,8 @@ import {
       'attributes',
       'require_authenticated_connection',
       'disable_packet_broker_forwarding',
+      'administrative_contact',
+      'technical_contact',
     ]
 
     if (rights.includes('RIGHT_GATEWAY_READ_SECRETS')) {

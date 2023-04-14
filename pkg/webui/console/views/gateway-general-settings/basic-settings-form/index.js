@@ -21,6 +21,7 @@ import Form from '@ttn-lw/components/form'
 import Input from '@ttn-lw/components/input'
 import Checkbox from '@ttn-lw/components/checkbox'
 import KeyValueMap from '@ttn-lw/components/key-value-map'
+import ContactFields from '@ttn-lw/components/contact-fields'
 
 import Require from '@console/lib/components/require'
 
@@ -83,7 +84,36 @@ const BasicSettingsForm = React.memo(props => {
   )
 
   const initialValues = React.useMemo(() => {
+    // Add technical and administrative contact to the initial values.
+    const technicalContact =
+      gateway.technical_contact !== undefined && gateway.technical_contact !== null
+        ? {
+            _technical_contact_id: gateway.technical_contact.user_ids
+              ? gateway.technical_contact.user_ids.user_id
+              : gateway.technical_contact.organization_ids.organization_id,
+            _technical_contact_type: gateway.technical_contact.user_ids ? 'user' : 'organization',
+          }
+        : {
+            _technical_contact_id: '',
+            _technical_contact_type: '',
+          }
+    const administrativeContact =
+      gateway.administrative_contact !== undefined && gateway.administrative_contact !== null
+        ? {
+            _administrative_contact_id: gateway.administrative_contact.user_ids
+              ? gateway.administrative_contact.user_ids.user_id
+              : gateway.administrative_contact.organization_ids.organization_id,
+            _administrative_contact_type: gateway.administrative_contact.user_ids
+              ? 'user'
+              : 'organization',
+          }
+        : {
+            _administrative_contact_id: '',
+            _administrative_contact_type: '',
+          }
     const initialValues = {
+      ...technicalContact,
+      ...administrativeContact,
       ...gateway,
       attributes: mapAttributesToFormValue(gateway.attributes),
     }
@@ -93,7 +123,9 @@ const BasicSettingsForm = React.memo(props => {
 
   const onFormSubmit = React.useCallback(
     async (values, { resetForm, setSubmitting }) => {
+      console.log(values)
       const castedValues = validationSchema.cast(values)
+      console.log(castedValues)
       if (castedValues?.lbs_lns_secret?.value === '') {
         castedValues.lbs_lns_secret = null
       }
@@ -152,18 +184,6 @@ const BasicSettingsForm = React.memo(props => {
         type="textarea"
         component={Input}
         tooltipId={tooltipIds.GATEWAY_DESCRIPTION}
-      />
-      <Form.Field
-        name="administrative_contact"
-        component={Input}
-        title={sharedMessages.adminContact}
-        description={sharedMessages.administrativeEmailAddressDescription}
-      />
-      <Form.Field
-        name="technical_contact"
-        component={Input}
-        title={sharedMessages.technicalContact}
-        description={sharedMessages.technicalEmailAddressDescription}
       />
       <Form.Field
         title={sharedMessages.gatewayServerAddress}
@@ -238,6 +258,20 @@ const BasicSettingsForm = React.memo(props => {
         description={m.disablePacketBrokerForwarding}
         tooltipId={tooltipIds.DISABLE_PACKET_BROKER_FORWARDING}
       />
+      <Form.SubTitle title={sharedMessages.adminContact} />
+      <div>
+        <ContactFields
+          name="administrative"
+          hasInitialValue={Boolean(initialValues.administrative_contact)}
+        />
+      </div>
+      <Form.SubTitle title={sharedMessages.technicalContact} />
+      <div>
+        <ContactFields
+          name="technical"
+          hasInitialValue={Boolean(initialValues.technical_contact)}
+        />
+      </div>
       <SubmitBar>
         <Form.Submit component={SubmitButton} message={sharedMessages.saveChanges} />
         <Require featureCheck={mayDeleteGateway}>

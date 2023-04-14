@@ -168,9 +168,53 @@ export default class GatewayGeneralSettings extends React.Component {
       delete formValues.attributes
     }
 
-    const changed = diff(gateway, formValues)
+    const {
+      _administrative_contact_id,
+      _administrative_contact_type,
+      _technical_contact_id,
+      _technical_contact_type,
+    } = formValues
+
+    const administrative_contact =
+      _administrative_contact_id !== ''
+        ? {
+            [`${_administrative_contact_type}_ids`]: {
+              [`${_administrative_contact_type}_id`]: _administrative_contact_id,
+            },
+          }
+        : ''
+
+    const technical_contact =
+      _technical_contact_id !== ''
+        ? {
+            [`${_technical_contact_type}_ids`]: {
+              [`${_technical_contact_type}_id`]: _technical_contact_id,
+            },
+          }
+        : ''
+
+    const changed = diff(
+      gateway,
+      { administrative_contact, technical_contact, ...formValues },
+      {
+        exclude: [
+          '_administrative_contact_id',
+          '_administrative_contact_type',
+          '_technical_contact_id',
+          '_technical_contact_type',
+        ],
+      },
+    )
 
     const update = 'attributes' in changed ? { ...changed, attributes } : changed
+
+    if (technical_contact === '') {
+      update.technical_contact = null
+    }
+    if (administrative_contact === '') {
+      update.administrative_contact = null
+    }
+
     return updateGateway(gtwId, update)
   }
 
