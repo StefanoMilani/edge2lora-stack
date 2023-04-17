@@ -55,7 +55,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = dispatch => ({
   stopStream: id => dispatch(stopOrganizationEventsStream(id)),
   loadData: id => {
-    dispatch(getOrganization(id, 'name,description'))
+    dispatch(getOrganization(id, 'name,description,administrative_contact,technical_contact'))
     dispatch(getOrganizationsRightsList(id))
   },
 })
