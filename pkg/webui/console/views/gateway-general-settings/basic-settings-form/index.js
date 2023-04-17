@@ -23,6 +23,10 @@ import Checkbox from '@ttn-lw/components/checkbox'
 import KeyValueMap from '@ttn-lw/components/key-value-map'
 import ContactFields from '@ttn-lw/components/contact-fields'
 import Notification from '@ttn-lw/components/notification'
+import {
+  getAdministrativeContact,
+  getTechnicalContact,
+} from '@ttn-lw/components/contact-fields/utils'
 
 import Message from '@ttn-lw/lib/components/message'
 
@@ -89,36 +93,12 @@ const BasicSettingsForm = React.memo(props => {
   const initialValues = React.useMemo(() => {
     const { administrative_contact, technical_contact, ...gatewayValues } = gateway
     // Add technical and administrative contact to the initial values.
-    const technicalContact =
-      gateway.technical_contact !== undefined && gateway.technical_contact !== null
-        ? {
-            _technical_contact_id: gateway.technical_contact.user_ids
-              ? gateway.technical_contact.user_ids.user_id
-              : gateway.technical_contact.organization_ids.organization_id,
-            _technical_contact_type: gateway.technical_contact.user_ids ? 'user' : 'organization',
-          }
-        : {
-            _technical_contact_id: '',
-            _technical_contact_type: '',
-          }
-    const administrativeContact =
-      gateway.administrative_contact !== undefined && gateway.administrative_contact !== null
-        ? {
-            _administrative_contact_id: gateway.administrative_contact.user_ids
-              ? gateway.administrative_contact.user_ids.user_id
-              : gateway.administrative_contact.organization_ids.organization_id,
-            _administrative_contact_type: gateway.administrative_contact.user_ids
-              ? 'user'
-              : 'organization',
-          }
-        : {
-            _administrative_contact_id: '',
-            _administrative_contact_type: '',
-          }
+    const technicalContact = getTechnicalContact(gateway)
+    const administrativeContact = getAdministrativeContact(gateway)
     const initialValues = {
+      ...gatewayValues,
       ...technicalContact,
       ...administrativeContact,
-      ...gatewayValues,
       attributes: mapAttributesToFormValue(gateway.attributes),
     }
 
