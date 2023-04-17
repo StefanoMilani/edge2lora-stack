@@ -149,7 +149,7 @@ const ApplicationGeneralSettingsContainer = ({ appId }) => {
 
       const changed = diff(
         application,
-        { administrative_contact, technical_contact, ...values },
+        { ...values, administrative_contact, technical_contact },
         {
           exclude: [
             '_administrative_contact_id',

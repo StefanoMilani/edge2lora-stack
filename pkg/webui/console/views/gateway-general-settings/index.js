@@ -25,7 +25,6 @@ import { withBreadcrumb } from '@ttn-lw/components/breadcrumbs/context'
 import Breadcrumb from '@ttn-lw/components/breadcrumbs/breadcrumb'
 import PageTitle from '@ttn-lw/components/page-title'
 import Collapse from '@ttn-lw/components/collapse'
-import { composeContact } from '@ttn-lw/components/contact-fields/utils'
 
 import withRequest from '@ttn-lw/lib/components/with-request'
 
@@ -169,42 +168,21 @@ export default class GatewayGeneralSettings extends React.Component {
       delete formValues.attributes
     }
 
-    const {
-      _administrative_contact_id,
-      _administrative_contact_type,
-      _technical_contact_id,
-      _technical_contact_type,
-    } = formValues
-
-    const administrative_contact =
-      _administrative_contact_id !== ''
-        ? composeContact(_administrative_contact_type, _administrative_contact_id)
-        : ''
-
-    const technical_contact =
-      _technical_contact_id !== ''
-        ? composeContact(_technical_contact_type, _technical_contact_id)
-        : ''
-
-    const changed = diff(
-      gateway,
-      { administrative_contact, technical_contact, ...formValues },
-      {
-        exclude: [
-          '_administrative_contact_id',
-          '_administrative_contact_type',
-          '_technical_contact_id',
-          '_technical_contact_type',
-        ],
-      },
-    )
+    const changed = diff(gateway, formValues, {
+      exclude: [
+        '_administrative_contact_id',
+        '_administrative_contact_type',
+        '_technical_contact_id',
+        '_technical_contact_type',
+      ],
+    })
 
     const update = 'attributes' in changed ? { ...changed, attributes } : changed
 
-    if (technical_contact === '') {
+    if (formValues.technical_contact === '') {
       update.technical_contact = null
     }
-    if (administrative_contact === '') {
+    if (formValues.administrative_contact === '') {
       update.administrative_contact = null
     }
 
