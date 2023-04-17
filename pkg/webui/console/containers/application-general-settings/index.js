@@ -91,6 +91,7 @@ const ApplicationGeneralSettingsContainer = ({ appId }) => {
     packageAssoc?.package_name === alcsyncPackageName ? { alcsync: true } : { alcsync: false }
 
   // Add technical and administrative contact to the initial values.
+  const { administrative_contact, technical_contact, ...applicationValues } = application
   const technicalContact =
     application.technical_contact !== undefined && application.technical_contact !== null
       ? {
@@ -120,7 +121,7 @@ const ApplicationGeneralSettingsContainer = ({ appId }) => {
   const initialValues = {
     ...technicalContact,
     ...administrativeContact,
-    ...application,
+    ...applicationValues,
     ...link,
     ...alcsync,
   }
