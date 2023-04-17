@@ -11,6 +11,8 @@ For details about compatibility between different releases, see the **Commitment
 
 ### Added
 
+- Add support for `administrative_contact` and `technical_contact` in the Console
+
 ### Changed
 
 ### Deprecated
