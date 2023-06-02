@@ -11,7 +11,12 @@ For details about compatibility between different releases, see the **Commitment
 
 ### Added
 
+- Each `ApplicationDownlink` message now has the `Attempt` and `MaxAttempts` fields to indicate the current and maximum number of attempts for a specific **confirmed downlink**.
+- The Application Server configuration now has the `Downlinks` section and its `ConfirmedRetry` subsection that configures the amount of `MaxAttempts` for confirmed downlinks. The default values are `8` for the `default-retry-attempts` used when the `MaxAttempts` field is not set and `32` for the `max-retry-attempts` used to limit the `MaxAttempts` field.
+
 ### Changed
+
+- Instead of retrying confirmed downlinks indefinitely, the Application Server now retries them up to `MaxAttempts` times. The default value is `8` and can be configured in the Application Server configuration. The `MaxAttempts` field will not be populated for the confirmed downlinks that were scheduled before this change, and they will be retried upmost `default-retry-attempts` times.
 
 ### Deprecated
 
@@ -109,7 +114,7 @@ For details about compatibility between different releases, see the **Commitment
 - Device claiming that transfer devices between applications is now deprecated and will be removed in a future version of The Things Stack. Device claiming on Join Servers, including The Things Join Server, remains functional. This deprecates the following components:
   - API for managing application claim authorization (`EndDeviceClaimingServer.AuthorizeApplication` and `EndDeviceClaimingServer.UnauthorizeApplication`)
   - CLI commands to manage application claim settings (`ttn-lw-cli application claim [authorize|unauthorize]`)
-  - CLI command to claim end devices  (`ttn-lw-cli devices claim`)
+  - CLI command to claim end devices (`ttn-lw-cli devices claim`)
 
 ### Fixed
 
@@ -243,10 +248,10 @@ For details about compatibility between different releases, see the **Commitment
 ### Changed
 
 - Option to ignore logs from selected gRPC methods now supports ignoring logs for selected errors on method.
-    Examples:
-    - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink"`: log is skipped when no error occurs.
-    - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink:pkg/networkserver:duplicate_uplink;pkg/networkserver:device_not_found"`: log is skipped when either `pkg/networkserver:duplicate_uplink` or `pkg/networkserver:device_not_found` error occurs (but not on success).
-    - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink:;pkg/networkserver:duplicate_uplink"`: log is skipped on success or when `pkg/networkserver:duplicate_uplink` error occurs.
+  Examples:
+  - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink"`: log is skipped when no error occurs.
+  - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink:pkg/networkserver:duplicate_uplink;pkg/networkserver:device_not_found"`: log is skipped when either `pkg/networkserver:duplicate_uplink` or `pkg/networkserver:device_not_found` error occurs (but not on success).
+  - `--grpc.log-ignore-methods="/ttn.lorawan.v3.GsNs/HandleUplink:;pkg/networkserver:duplicate_uplink"`: log is skipped on success or when `pkg/networkserver:duplicate_uplink` error occurs.
 - The Gateway Server now takes into consideration the extra duty cycle checks present in the LoRa Basics Station forwarder. Previously the Gateway Server may accept the scheduling of downlinks which the packet forwarder would silently drop.
   - Note that in some rare cases in which the LoRa Basics Station duty cycle is stricter than the windowed approach used by The Things Stack, the scheduling will fail and this will be visible via `ns.down.data.schedule.fail` events. Note that this is actually a positive outcome - it allows the Network Server to schedule the downlink via another gateway, while previously the downlink would be scheduled but get silently dropped on the gateway.
 
