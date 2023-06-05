@@ -11,6 +11,8 @@ For details about compatibility between different releases, see the **Commitment
 
 ### Added
 
+- Add `UserInput` component to the Console to handle user id input fields by implementing an autosuggest.
+
 ### Changed
 
 ### Deprecated
