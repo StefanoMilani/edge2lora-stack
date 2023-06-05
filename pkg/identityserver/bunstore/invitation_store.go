@@ -179,7 +179,6 @@ func (s *invitationStore) GetInvitation(ctx context.Context, token string) (*ttn
 		attribute.String("invitation_token", token),
 	))
 	defer span.End()
-
 	model, err := s.getInvitationModelBy(ctx, func(q *bun.SelectQuery) *bun.SelectQuery {
 		return q.
 			Where("token = ?", token).
@@ -195,58 +194,31 @@ func (s *invitationStore) GetInvitation(ctx context.Context, token string) (*ttn
 		}
 		return nil, err
 	}
-
-	pb, err := invitationToPB(model)
-	if err != nil {
-		return nil, err
-	}
-
-	return pb, nil
+	return invitationToPB(model)
 }
 
 func (s *invitationStore) SetInvitationAcceptedBy(
-	ctx context.Context, token string, accepter *ttnpb.UserIdentifiers,
+	ctx context.Context, validation *ttnpb.Invitation, usrIDs *ttnpb.UserIdentifiers,
 ) error {
 	ctx, span := tracer.StartFromContext(ctx, "SetInvitationAcceptedBy", trace.WithAttributes(
-		attribute.String("invitation_token", token),
-		attribute.String("user_id", accepter.GetUserId()),
+		attribute.String("invitation_token", validation.Token),
+		attribute.String("user_id", usrIDs.GetUserId()),
 	))
 	defer span.End()
 
-	model, err := s.getInvitationModelBy(ctx, func(q *bun.SelectQuery) *bun.SelectQuery {
-		return q.Where("token = ?", token)
-	})
-	if err != nil {
-		if errors.IsNotFound(err) {
-			return store.ErrInvitationNotFound.WithAttributes(
-				"invitation_token", token,
-			)
-		}
-		return err
-	}
-
-	if model.ExpiresAt != nil && model.ExpiresAt.Before(s.now()) {
-		return store.ErrInvitationExpired.WithAttributes("invitation_token", token)
-	}
-
-	if model.AcceptedByID != nil {
-		return store.ErrInvitationAlreadyUsed.WithAttributes("invitation_token", token)
-	}
-
-	_, userUUID, err := s.getEntity(ctx, accepter)
+	_, userUUID, err := s.getEntity(ctx, usrIDs)
 	if err != nil {
 		return err
 	}
 
 	_, err = s.DB.NewUpdate().
-		Model(model).
-		WherePK().
+		Model((*Invitation)(nil)).
+		Where("token = ?", validation.Token).
 		Set("accepted_by_id = ?, accepted_at = NOW()", userUUID).
 		Exec(ctx)
 	if err != nil {
 		return storeutil.WrapDriverError(err)
 	}
-
 	return nil
 }
 
