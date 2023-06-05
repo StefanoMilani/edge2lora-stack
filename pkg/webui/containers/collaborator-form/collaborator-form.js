@@ -13,29 +13,63 @@
 // limitations under the License.
 
 import React, { useCallback, useState } from 'react'
+import { defineMessages } from 'react-intl'
 
 import Form from '@ttn-lw/components/form'
-import Input from '@ttn-lw/components/input'
 import Notification from '@ttn-lw/components/notification'
-import Radio from '@ttn-lw/components/radio-button'
 import SubmitBar from '@ttn-lw/components/submit-bar'
 import SubmitButton from '@ttn-lw/components/submit-button'
 import toast from '@ttn-lw/components/toast'
 import ModalButton from '@ttn-lw/components/button/modal-button'
 import RightsGroup from '@ttn-lw/components/rights-group'
 
+import UserInput from '@console/containers/user-input'
+import composeOption from '@console/containers/user-input/util'
+
 import Yup from '@ttn-lw/lib/yup'
 import PropTypes from '@ttn-lw/lib/prop-types'
 import sharedMessages from '@ttn-lw/lib/shared-messages'
 import { userId as collaboratorIdRegexp } from '@ttn-lw/lib/regexp'
 
+const collaboratorOrganizationSchema = Yup.object().shape({
+  organization_id: Yup.string().matches(collaboratorIdRegexp, sharedMessages.validateAlphanum),
+})
+
+const collaboratorUserSchema = Yup.object().shape({
+  user_id: Yup.string().matches(collaboratorIdRegexp, sharedMessages.validateAlphanum),
+})
+
 const validationSchema = Yup.object().shape({
-  collaborator_id: Yup.string()
-    .matches(collaboratorIdRegexp, Yup.passValues(sharedMessages.validateIdFormat))
-    .required(sharedMessages.validateRequired),
-  collaborator_type: Yup.string().required(sharedMessages.validateRequired),
+  collaborator: Yup.object()
+    .shape({
+      ids: Yup.object().when(['organization_ids'], {
+        is: organizationIds => Boolean(organizationIds),
+        then: collaboratorOrganizationSchema,
+        otherwise: collaboratorUserSchema,
+      }),
+    })
+    .required(sharedMessages.validateRequired)
+    .nullable(),
   rights: Yup.array().min(1, sharedMessages.validateRights),
 })
+
+const m = defineMessages({
+  collaboratorIdPlaceholder: 'Type to choose a collaborator',
+})
+
+const encodeCollaborator = collaboratorOption =>
+  collaboratorOption
+    ? {
+        ids: {
+          [`${collaboratorOption.icon}_ids`]: {
+            [`${collaboratorOption.icon}_id`]: collaboratorOption.value,
+          },
+        },
+      }
+    : null
+
+const decodeCollaborator = collaborator =>
+  collaborator && collaborator.ids ? composeOption(collaborator) : null
 
 const CollaboratorForm = props => {
   const {
@@ -64,23 +98,17 @@ const CollaboratorForm = props => {
 
   const handleSubmit = useCallback(
     async (values, { resetForm, setSubmitting }) => {
-      const { collaborator_id, collaborator_type, rights } = values
+      const { collaborator, rights } = values
 
-      const collaborator_ids = {
-        [`${collaborator_type}_ids`]: {
-          [`${collaborator_type}_id`]: collaborator_id,
-        },
-      }
-
-      const collaborator = {
-        ids: collaborator_ids,
+      const composedCollaborator = {
+        ...collaborator,
         rights,
       }
 
       setSubmitError(undefined)
 
       try {
-        await onSubmit(collaborator)
+        await onSubmit(composedCollaborator)
 
         resetForm({ values })
         onSubmitSuccess()
@@ -119,18 +147,16 @@ const CollaboratorForm = props => {
   const initialValues = React.useMemo(() => {
     if (!collaborator) {
       return {
-        collaborator_id: '',
-        collaborator_type: 'user',
+        collaborator: '',
         rights: [...pseudoRights],
       }
     }
 
     return {
-      collaborator_id: collaboratorId,
-      collaborator_type: collaboratorType,
+      collaborator: { ids: collaborator.ids, name: collaborator.name },
       rights: [...collaborator.rights],
     }
-  }, [collaborator, collaboratorId, collaboratorType, pseudoRights])
+  }, [collaborator, pseudoRights])
 
   let warning = null
   if (update) {
@@ -153,25 +179,17 @@ const CollaboratorForm = props => {
       validationSchema={validationSchema}
     >
       {warning}
-      <Form.Field
-        name="collaborator_id"
-        component={Input}
-        title={sharedMessages.collaboratorId}
-        placeholder={sharedMessages.collaboratorIdPlaceholder}
+      <UserInput
+        name="collaborator"
+        title={sharedMessages.collaborator}
+        placeholder={m.collaboratorIdPlaceholder}
+        isClearable
         required
         autoFocus={!update}
         disabled={update}
+        encode={encodeCollaborator}
+        decode={decodeCollaborator}
       />
-      <Form.Field
-        name="collaborator_type"
-        title={sharedMessages.type}
-        component={Radio.Group}
-        disabled={update}
-        required
-      >
-        <Radio label={sharedMessages.user} value="user" />
-        <Radio label={sharedMessages.organization} value="organization" />
-      </Form.Field>
       <Form.Field
         name="rights"
         title={sharedMessages.rights}
