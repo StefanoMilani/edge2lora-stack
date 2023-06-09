@@ -57,9 +57,9 @@ The Things Stack components are primarily built in Go, we use React for web fron
 
 The Things Network's development tooling uses [Mage](https://magefile.org/). Under the hood, `mage` calls other tools such as `git`, `go`, `yarn`, `docker` etc. Recent versions are supported; Node v18.x and Go v1.18.x.
 
-- Follow [Go's installation guide](https://golang.org/doc/install) to install Go.
-- Download Node.js [from their website](https://nodejs.org) and install it.
-- Follow [Yarn's installation guide](https://yarnpkg.com/en/docs/install) to install Yarn.
+- Follow [Go's installation guide](https://golang.org/doc/install) to install Go. VERSION: go1.20.4 linux/amd64
+- Download Node.js [from their website](https://nodejs.org) and install it. VERSION: v18.16.0
+- Follow [Yarn's installation guide](https://yarnpkg.com/en/docs/install) to install Yarn. VERSION: 1.22.19
 - Follow the guides to [install Docker](https://docs.docker.com/install/#supported-platforms) and to [install Docker Compose](https://docs.docker.com/compose/install/#install-compose).
 
 ## Cloning the Repository
@@ -72,6 +72,7 @@ The first step to get started is to initialize tooling and some dependencies:
 
 ```bash
 $ make init
+$ tools/bin/mage -l   # List available mage commands
 ```
 
 You may want to run this commands from time to time to stay up-to-date with changes to tooling and dependencies.
@@ -98,6 +99,7 @@ $ printenv | grep "TTN_LW_*"
 1. Build the frontend assets
 
 ```bash
+$ tools/bin/mage js:deps  # Install node deps
 $ tools/bin/mage js:build
 ```
 
